@@ -19,6 +19,10 @@ func main() {
 
 	fmt.Printf("Starting server at port localhost:8080\n")
 	log.Fatal(http.ListenAndServe(":8080", nil))
+
+	var jsonGroupie = []byte('[
+		
+	]')
 }
 
 func process(w http.ResponseWriter, r *http.Request) {
@@ -30,7 +34,7 @@ func process(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 
-		http.ServeFile(w, r, "templates/form.html")
+		http.ServeFile(w, r, "index.html")
 	case "POST":
 		if err := r.ParseForm(); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest) // if there is an error it returns bad request 400
@@ -51,3 +55,5 @@ func process(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Sorry, only GET and POST methods are supported.", http.StatusUnsupportedMediaType)
 	}
 }
+
+
