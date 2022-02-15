@@ -29,7 +29,7 @@
                 <h1>{{.Name}}</h1>
                 <p><b>Creation Date:</b> {{.CreationDate}} <b>First Album Released:</b> {{.FirstAlbum}}</p>
                 <p><b>Members:</b> {{range .Members}} {{.}}, {{end}}
-                    <!-- <div class="conteiner">
+                    <div class="conteiner">
                         <div>
                             {{range $key, $value := .DatesLocations}}
                             <div class="artist-data">
@@ -39,18 +39,7 @@
                             <div class="data">{{.}}</div>
                             <br> {{end}} {{end}}
                         </div>
-                    </div> -->
-                    <div class="card-body">
-                        <h5 class="card-title">Members:</h5>
-                        {{range .Members}}
-                        <ul class="card-text">
-                            <li style="margin-bottom: 0rem;">{{.}}</li>
-                        </ul>
-                        {{end}}
-                        <h5 class="card-title">Creation Date:</h5>
-                        <p class="card-text"> {{.CreationDate}}</p>
-                        <h5 class="card-title">First Album Released:</h5>
-                        <p class="card-text">{{.FirstAlbum}}</p>
+                    </div>
                 </p>
 
 

@@ -331,6 +331,29 @@ func concertPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+func tourPage(w http.ResponseWriter, r *http.Request) {
+	idStr := r.FormValue("tour")
+	id, _ := strconv.Atoi(idStr)
+	artist, _ := GetFullDataById(id)
+
+	for key, value := range artist.DatesLocations {
+		fmt.Print(key + "  - ")
+		for _, e := range value {
+			println(e)
+		}
+	}
+
+	tmpl, err := template.ParseFiles("tour.html")
+	if err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
+
+	if err := tmpl.Execute(w, artist); err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
+}
 
 func ConverterStructToString() ([]string, error) {
 	var data []string
@@ -470,14 +493,13 @@ func FilterByLocation(data []MyArtistFull, location string) []MyArtistFull {
 }
 
 func main() {
-	// css folder
-	fs := http.FileServer(http.Dir("css"))
-	http.Handle("/css/", http.StripPrefix("/css/", fs))
-
-	// http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css"))))
+	// static folder
+	fs := http.FileServer(http.Dir("static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	http.HandleFunc("/", mainPage)
 	http.HandleFunc("/concert", concertPage)
+	http.HandleFunc("/tour", tourPage)
 
 	port := ":8080"
 	println("Server listen on port:", port)
