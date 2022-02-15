@@ -1,116 +1,112 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <link href="https://fonts.googleapis.com/css?family=Pacifico|Roboto&display=swap" rel="stylesheet">
-      <link href="css/style.css" rel="stylesheet">
-    <title>GROUPIE-TRACKER</title>
-</head>
-<body>
-
-
-<div class="heading">
-  <h1><span>Groupie-</span>Tracker</h1>
-</div>
-
-<form action="/search" >
-<input type="submit" name="search" id="search" value="SEARCH BAR"></form>
-<section class="filterSection">
-    <h3>Filters:</h3>
-    <form action="/">
-      <p>Select a creation date</p>
-      <p>~~~~[<span id="fromCDshow"></span>]~~~~~~~~~~~[<span id="toCDshow"></span>]~~~~</p>
-      <div class="slideContainer">
-      <div class="slideItem">
-      <input type="range" min="1957" max="2020" value="1957" class="slider" name="fromCD" id="fromCD">
-    </div>
-      <div class="slideItem">
-      <input type="range" min="1957" max="2020" value="2020" class="slider" name="toCD" id="toCD">
-    </div></div>
-
-    <p>Choose a number of members</p>
-    <p>[1]~~~[2]~~~[3]~~~[4]~~~[5]~~~[6]~~~[7]</p>
-    <div class="slideContainer">
-    <input type="checkbox" name="member" value="1">
-<input type="checkbox" name="member" value="2">
-<input type="checkbox" name="member" value="3">
-<input type="checkbox" name="member" value="4">
-<input type="checkbox" name="member" value="5">
-<input type="checkbox" name="member" value="6">
-<input type="checkbox" name="member" value="7">
-  </div>
-  <br>
-  <p>Period of Debut Album</p>
-  <p>~~~~~~[ from ]~~~~~~~~~~[ to ]~~~~~~</p>
-  <div class="slideContainer">
-<input type="date" name="fromFA" value="1957-01-01">
-<input type="date" name="toFA" value="2021-01-01">
-  </div>
-<p>City/country of concerts:</p>
-<div class="slideContainer">
-<input type="text" name="location" placeholder="Kazakhstan">
-</div>
-<br>
-<br>
-<div class="slideContainer">
-<input type="submit" value="Apply Filters">
-</div>
-
-  </form>
-  </section>
-  <script>
-    var fromCD = document.getElementById("fromCD");
-    var toCD = document.getElementById("toCD");
-    var fromCDshow = document.getElementById("fromCDshow");
-    var toCDshow = document.getElementById("toCDshow");
-    fromCDshow.innerHTML = fromCD.value;
-    toCDshow.innerHTML = toCD.value
-    fromCD.oninput = function() {
-      fromCDshow.innerHTML = this.value;
-    }
-    toCD.oninput = function() {
-      toCDshow.innerHTML = this.value;
-    }
-    </script>
-</section>
-
-<section class="mainSection">
-<div class="flexContainer">
-{{range .}}
-<div class="flexItem">
-<form action="/response" method="POST">
-<input type="image" src="{{.Image}}" class="imgBorder">
-<p><b>Name: </b>{{.Name}}</p>
-<p><b>Creation Date: </b>{{.CreationDate}}</p>
-  <p><b>First Album: </b>{{.FirstAlbum}}</p>
-  <input name="relURL" value="{{.Relation}}" type ="hidden">
-  <input name="name" value="{{.Name}}" type ="hidden">
-</div>
-</form>
-{{end}}
-</div>
-</section>
-
-
-</body>
-</html> -->
-
 <!doctype html>
 <html lang="en">
 
 <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Pacifico|Roboto&display=swap" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+
+    <title>Groupie tracker</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/style.css">
     <title>Groupie Tracker</title>
+
 </head>
 
 <body>
+
+    <section id="navigation">
+        <div>
+            <form class="form-inline" action="/" method="POST">
+                <input type="submit" name="main" class="filter-title btn btn-light" value="Main Page">
+            </form>
+        </div>
+    </section>
+
+    <!-- <section id="search-bar">
+        <div class="search" id="search">
+            <form class="form-inline" action="/" method="POST">
+                <input type="text" name="search" placeholder="type to search" list="character">
+                <datalist id="character">
+                    {{range .}}
+                    <option value={{.Name}}>{{.Name}} - artist/band</option>
+                    {{range .Members}}
+                    <option value="{{.}}">{{.}} - member</option>
+                    {{end}}
+                    {{range .Locations}}
+                    <option value={{.}}>{{.}} - location</option>
+                    {{end}}
+                    <option value={{.CreationDate}}>{{.CreationDate}} - Creation Date</option>
+                    <option value={{.FirstAlbum}}>{{.FirstAlbum}} - First Album Release Date</option>
+                    {{end}}
+                </datalist>
+                <button type="submit" hidden="true"></button>
+            </form>
+        </div>
+    </section>
+
+    <section id="filter">
+
+        <form action="/" method="POST">
+            <div class="filter">
+                <label class="filter-title" for="startCD">Filter by creation date</label>
+                <div id=start>
+                    <input type="range" min="1900" max="2020" step="1" id="startCD" name="startCD" value="1900">
+                    <input type="range" min="1900" max="2020" step="1" id="endCD" name="endCD" value="2020">
+                </div>
+                <label class="filter-item-start" for="from-date" top>From: </label><br/>
+                <div name="from-date" class="filter-item filter-number" id="from-date" maxlength="4"></div>
+                <label class="filter-item-start" for="till-date" top>Till: </label><br/>
+                <div name="till-date" class="filter-item filter-number" id="till-date" maxlength="4"></div>
+            </div>
+            <br>
+            <div class="filter">
+                <lable class="filter-title">Filter by first album date</lable>
+                <label class="filter-item" for="startFA">From:</label>
+                <input type="date" class="filter-item" id="startFA" name="startFA">
+                <label for="endFA" class="filter-item" for="till-date" top>Till: </label><br/>
+                <input type="date" class="filter-item" id="endFA" name="endFA">
+            </div>
+            <br>
+            <div class="filter">
+                <lable class="filter-title">Filter by number of members</lable>
+                <input type="checkbox" class="filter-item" id="1" name="mem1" value="1">
+                <label for="1"> 1 </label>
+                <input type="checkbox" class="filter-item" id="2" name="mem2" value="2">
+                <label for="2"> 2 </label>
+                <input type="checkbox" class="filter-item" id="3" name="mem3" value="3">
+                <label for="3"> 3 </label>
+                <input type="checkbox" class="filter-item" id="4" name="mem4" value="4">
+                <label for="4"> 4 </label>
+                <input type="checkbox" class="filter-item" id="5" name="mem5" value="5">
+                <label for="5"> 5 </label>
+                <input type="checkbox" class="filter-item" id="6" name="mem6" value="6">
+                <label for="6"> 6 </label>
+                <input type="checkbox" class="filter-item" id="7" name="mem7" value="7">
+                <label for="7"> 7 </label>
+                <input type="checkbox" class="filter-item" id="8" name="mem8" value="8">
+                <label for="8"> 8 </label>
+            </div>
+            <br>
+            <div class="filter">
+                <label class="filter-title" for="location-filter">Filter by locations of concerts</label>
+                <input type="text" class="filter-item" id="location-filter" name="location-filter" placeholder="Location" list="location-name">
+                <datalist style="text-transform: uppercase;" id="location-name">
+                    {{range .}}
+                    {{range .Locations}}
+                    <option value={{.}}>{{.}} - location</option>
+                    {{end}}
+                    {{end}}
+                </datalist>
+            </div>
+
+            <br>
+            <button type="submit" class="filter-submit">Filter</button>
+            <br>
+        </form> -->
+
+
 
     <!-- Visible content -->
     <div class="container">
@@ -205,9 +201,61 @@
 
 
 
-    <!-- JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script>
+            document.getElementById('from-date').style.visibility = 'hidden';
+            document.getElementById('till-date').style.visibility = 'hidden';
+            document.getElementById('startCD').addEventListener('input', function functionName(e) {
+                document.getElementById('from-date').style.visibility = 'visible';
+                let start = e.target.value;
+                console.log(start);
+                document.getElementById('from-date').innerHTML = start;
+
+            });
+
+            document.getElementById('endCD').addEventListener('input', function functionName(e) {
+                document.getElementById('till-date').style.visibility = 'visible';
+                let end = e.target.value;
+                console.log(end);
+                document.getElementById('till-date').innerHTML = end;
+
+            });
+        </script>
+
+    </section>
+
+
+    <div id="cards" class="row">
+        {{range .}}
+        <div class="col">
+            <div class="card text-white bg-dark h-100" style="width: 250px;">
+                <img id="img" src={{.Image}} class="card-img-top" alt={{.Name}}>
+                <div class="card-header" style="font-size: 30px;">{{.Name}}</div>
+                <div class="card-body">
+                    <h5 class="card-title">Members:</h5>
+                    {{range .Members}}
+                    <ul class="card-text">
+                        <li style="margin-bottom: 0rem;">{{.}}</li>
+                    </ul>
+                    {{end}}
+                    <h5 class="card-title">Creation Date:</h5>
+                    <p class="card-text"> {{.CreationDate}}</p>
+                    <h5 class="card-title">First Album Released:</h5>
+                    <p class="card-text">{{.FirstAlbum}}</p>
+                    <div class="card-footer text-white bg-dark">
+                        <form class="form-inline" action="/concert" method="POST">
+                            <input type="hidden" name="concert" value={{.ID}}>
+                            <input type="submit" class="btn btn-light" value="Concert Schedule">
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{end}}
+    </div>
+
+    </section>
 
 </body>
 
