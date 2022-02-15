@@ -62,15 +62,18 @@ type MyDates struct {
 type MyLocations struct {
 	Index []MyLocation `json:"index"`
 }
+
 type MyRelations struct {
 	Index []MyRelation `json:"index"`
 }
 
-var ArtistsFull []MyArtistFull
-var Artists []MyArtist
-var Dates MyDates
-var Locations MyLocations
-var Relations MyRelations
+var (
+	ArtistsFull []MyArtistFull
+	Artists     []MyArtist
+	Dates       MyDates
+	Locations   MyLocations
+	Relations   MyRelations
+)
 
 func GetArtistsData() error {
 	resp, err := http.Get(baseURL + "/artists")
@@ -306,7 +309,6 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func concertPage(w http.ResponseWriter, r *http.Request) {
-
 	idStr := r.FormValue("concert")
 	id, _ := strconv.Atoi(idStr)
 	artist, _ := GetFullDataById(id)
@@ -426,7 +428,6 @@ func FilterByMember(data []MyArtistFull, mem []int) []MyArtistFull {
 			if len(bandmem.Members) == num {
 				tmp = append(tmp, bandmem)
 			}
-
 		}
 	}
 	return tmp
@@ -469,10 +470,11 @@ func FilterByLocation(data []MyArtistFull, location string) []MyArtistFull {
 }
 
 func main() {
+	// css folder
+	fs := http.FileServer(http.Dir("css"))
+	http.Handle("/css/", http.StripPrefix("/css/", fs))
 
-	// static folder
-	fs := http.FileServer(http.Dir("static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	// http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css"))))
 
 	http.HandleFunc("/", mainPage)
 	http.HandleFunc("/concert", concertPage)
@@ -483,5 +485,4 @@ func main() {
 	if err != nil {
 		log.Fatal("Listen and Server", err)
 	}
-
 }
