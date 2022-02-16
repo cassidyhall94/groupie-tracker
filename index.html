@@ -26,7 +26,7 @@
         </div>
 
         <!-- Search Bar -->
-        <div class="input-group">
+        <!-- <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="addon-wrapping">
                     <i class="material-icons">search</i>
@@ -39,78 +39,22 @@
             <a href="#" class="float-right" data-toggle="modal" data-target="#modal">
                 <small>Add filter</small>
             </a>
-        </div>
+        </div> -->
 
 
         <!-- Search results -->
-        <div class="row" id="cards"></div>
+        <!-- <div class="row" id="cards"></div> -->
 
         <!-- Pagination -->
-        <nav class="d-flex justify-content-center mt-5">
+        <!-- <nav class="d-flex justify-content-center mt-5">
             <ul class="pagination" id="pag"></ul>
-        </nav>
+        </nav> -->
 
 
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add filter</h5>
-                </div>
-                <div class="modal-body">
-                    <label>Members Number Range</label>
-                    <div class="form-row mb-4">
-                        <div class="col-6">
-                            <input type="number" class="form-control" id="mem_start">
-                        </div>
-                        <div class="col-6">
-                            <input type="number" class="form-control" id="mem_end">
-                        </div>
-                    </div>
-                    <label>Establish Year Range</label>
-                    <div class="form-row mb-4">
-                        <div class="col-6">
-                            <input type="number" class="form-control" id="est_start">
-                        </div>
-                        <div class="col-6">
-                            <input type="number" class="form-control" id="est_end">
-                        </div>
-                    </div>
-                    <label>Event Date Range</label>
-                    <div class="form-row mb-4">
-                        <div class="col-6">
-                            <input type="date" class="form-control" id="con_start">
-                        </div>
-                        <div class="col-6">
-                            <input type="date" class="form-control" id="con_end">
-                        </div>
-                    </div>
-                    <label>First Release Date Range</label>
-                    <div class="form-row mb-4">
-                        <div class="col-6">
-                            <input type="date" class="form-control" id="alb_start">
-                        </div>
-                        <div class="col-6">
-                            <input type="date" class="form-control" id="alb_end">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="clearFilters">Clear
-                        filters</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="saveFilter">Save
-                        changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-
-
-        <script>
+        <!-- <script>
             document.getElementById('from-date').style.visibility = 'hidden';
             document.getElementById('till-date').style.visibility = 'hidden';
             document.getElementById('startCD').addEventListener('input', function functionName(e) {
@@ -129,7 +73,7 @@
 
             });
             
-        </script>
+        </script> -->
 
     </section>
 
@@ -158,25 +102,26 @@
 
     </section>
     <!--TO SHOW CASSIDY AND FAZILA TO CHOOSE FROM-->
-    <a href="/artists/id?selection=1">
-        <div>                               
-              <img class="artistImg" src=https://groupietrackers.herokuapp.com/api/images/queen.jpeg alt="img descrip" width=20% >
-              <br>
-              <div class="artistName">Queen </div>
-        </div>
-  </a>
+<div id="cards" class="row">
+    {{range .}}
   <div class="flip-card">
     <div class="flip-card-inner">
       <div class="flip-card-front">
-        <img src="img_avatar.png" alt="Avatar" style="width:300px;height:300px;">
+        <div class="col">
+            <div class="card text-black bg-light h-50" style="width: 200px;" id="card">
+        <img id="img" src={{.Image}} class="card-img-top" alt={{.Name}}>
+      </div>
+        </div>
       </div>
       <div class="flip-card-back">
-        <h1>John Doe</h1>
-        <p>Architect & Engineer</p>
-        <p>We love that guy</p>
+        <h1><a href = "#"> {{.Name}}</a></h1>
+                <p><b>Creation Date:</b> {{.CreationDate}} <b>First Album Released:</b> {{.FirstAlbum}}</p>
+                <p><b>Members:</b> {{range .Members}} {{.}}, {{end}}
       </div>
     </div>
   </div> 
+  {{end}}
+</div>  
 </body>
 
 </html>
