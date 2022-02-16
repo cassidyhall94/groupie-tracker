@@ -1,16 +1,15 @@
-/*ADD WIKIPEDIA FOR EACH MEMBER
-CHECK WHY FILTERS DO'T WORK
-MAKE SEARCH WORK (COULD LIST THE BANDSW BUT MAYBE FILTER BETTER?)
+/*
+INTERNAL SERVER ERROR - 500
+CHECK WHY FILTERS DON'T WORK
+MAKE SEARCH WORK (COULD LIST THE BANDS BUT MAYBE FILTER BETTER?)
 MAKE NAME A LINK LIKE ON LAST EXAMPLE
-CHECK WHY TOUR PAGE IS NOT WORKING
 REMOVE THE BUTTONS AND INSTEAD HAVE THE LINK
 STYLE PAGES
 HAVE FEW BANDS PER PAGE
 MAKE BACKGROUND STAY WHEN SCROLLING
 ADD A TEST FILE
-MAYBE ADD 404 PAGE?
 REMOVE UNNECESSERY THINGS FROM MAIN.GO
-
+ADD WIKIPEDIA FOR EACH MEMBER
 */
 package main
 
@@ -92,13 +91,13 @@ var (
 func GetArtistsData() error {
 	resp, err := http.Get(baseURL + "/artists")
 	if err != nil {
-		return errors.New("Error by get")
+		return errors.New("error by get")
 	}
 	defer resp.Body.Close()
 
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return errors.New("Error by ReadAll")
+		return errors.New("error by ReadAll")
 	}
 	json.Unmarshal(bytes, &Artists)
 	return nil
@@ -107,11 +106,11 @@ func GetArtistsData() error {
 func GetDatesData() error {
 	resp, err := http.Get(baseURL + "/dates")
 	if err != nil {
-		return errors.New("Error by get")
+		return errors.New("error by get")
 	}
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return errors.New("Error by ReadAll")
+		return errors.New("error by ReadAll")
 	}
 	json.Unmarshal(bytes, &Dates)
 	return nil
@@ -120,11 +119,11 @@ func GetDatesData() error {
 func GetLocationsData() error {
 	resp, err := http.Get(baseURL + "/locations")
 	if err != nil {
-		return errors.New("Error by get")
+		return errors.New("error by get")
 	}
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return errors.New("Error by ReadAll")
+		return errors.New("error by ReadAll")
 	}
 	json.Unmarshal(bytes, &Locations)
 	return nil
@@ -133,11 +132,11 @@ func GetLocationsData() error {
 func GetRelationsData() error {
 	resp, err := http.Get(baseURL + "/relation")
 	if err != nil {
-		return errors.New("Error by get")
+		return errors.New("error by get")
 	}
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return errors.New("Error by ReadAll")
+		return errors.New("error by ReadAll")
 	}
 	json.Unmarshal(bytes, &Relations)
 	return nil
@@ -152,7 +151,7 @@ func GetData() error {
 	err3 := GetDatesData()
 	err4 := GetRelationsData()
 	if err1 != nil || err2 != nil || err3 != nil || err4 != nil {
-		return errors.New("Error by get data artists, locations, dates")
+		return errors.New("error by get data artists, locations, dates")
 	}
 	for i := range Artists {
 		var tmpl MyArtistFull
@@ -176,7 +175,7 @@ func GetArtistByID(id int) (MyArtist, error) {
 			return artist, nil
 		}
 	}
-	return MyArtist{}, errors.New("Not found")
+	return MyArtist{}, errors.New("not found")
 }
 
 func GetDateByID(id int) (MyDate, error) {
@@ -185,7 +184,7 @@ func GetDateByID(id int) (MyDate, error) {
 			return date, nil
 		}
 	}
-	return MyDate{}, errors.New("Not found")
+	return MyDate{}, errors.New("not found")
 }
 
 func GetLocationByID(id int) (MyLocation, error) {
@@ -194,7 +193,7 @@ func GetLocationByID(id int) (MyLocation, error) {
 			return location, nil
 		}
 	}
-	return MyLocation{}, errors.New("Not found")
+	return MyLocation{}, errors.New("not found")
 }
 
 func GetRelationByID(id int) (MyRelation, error) {
@@ -203,7 +202,7 @@ func GetRelationByID(id int) (MyRelation, error) {
 			return relation, nil
 		}
 	}
-	return MyRelation{}, errors.New("Not found")
+	return MyRelation{}, errors.New("not found")
 }
 
 func GetFullDataById(id int) (MyArtistFull, error) {
@@ -212,7 +211,7 @@ func GetFullDataById(id int) (MyArtistFull, error) {
 			return artist, nil
 		}
 	}
-	return MyArtistFull{}, errors.New("Not found")
+	return MyArtistFull{}, errors.New("not found")
 }
 
 var data []MyArtistFull
@@ -220,7 +219,7 @@ var data []MyArtistFull
 func mainPage(w http.ResponseWriter, r *http.Request) {
 	err := GetData()
 	if err != nil {
-		errors.New("Error by get data")
+		errors.New("error by get data")
 	}
 
 	main := r.FormValue("main")
@@ -345,6 +344,7 @@ func concertPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
 func tourPage(w http.ResponseWriter, r *http.Request) {
 	idStr := r.FormValue("tour")
 	id, _ := strconv.Atoi(idStr)
@@ -376,7 +376,7 @@ func ConverterStructToString() ([]string, error) {
 		locations, err2 := GetLocationByID(i)
 		date, err3 := GetDateByID(i)
 		if err1 != nil || err2 != nil || err3 != nil {
-			return data, errors.New("Error by converter")
+			return data, errors.New("error by converter")
 		}
 
 		str := artist.Name + " "
@@ -403,7 +403,7 @@ func Search(search string) []MyArtistFull {
 	}
 	art, err := ConverterStructToString()
 	if err != nil {
-		errors.New("Error by converter")
+		errors.New("error by converter")
 	}
 	var search_artist []MyArtistFull
 
@@ -412,7 +412,7 @@ func Search(search string) []MyArtistFull {
 		for i_name, l_name := range []byte(lower_band) {
 			lower_search := strings.ToLower(search)
 			if lower_search[0] == l_name {
-				lenght_name := 0
+				length_name := 0
 				indx := i_name
 				for _, l := range []byte(lower_search) {
 					if l == lower_band[indx] {
@@ -420,12 +420,12 @@ func Search(search string) []MyArtistFull {
 							break
 						}
 						indx++
-						lenght_name++
+						length_name++
 					} else {
 						break
 					}
 				}
-				if len(search) == lenght_name {
+				if len(search) == length_name {
 					band, _ := GetFullDataById(i + 1)
 					search_artist = append(search_artist, band)
 					break
@@ -445,7 +445,7 @@ func FilterByCreation(data []MyArtistFull, from string, till string) []MyArtistF
 	fromInt, err1 := strconv.Atoi(from)
 	tillInt, err2 := strconv.Atoi(till)
 	if err1 != nil || err2 != nil {
-		errors.New("Error by filter by creation date data")
+		errors.New("error by filter by creation date data")
 	}
 
 	var search_artist []MyArtistFull
@@ -476,7 +476,7 @@ func FilterByAlbumDate(data []MyArtistFull, albumStart string, albumEnd string) 
 	dateStart, err1 := time.Parse(layOut, albumStart)
 	dateEnd, err2 := time.Parse(layOut, albumEnd)
 	if err1 != nil || err2 != nil {
-		errors.New("Error by First Album date convert for filter")
+		errors.New("error by First Album date convert for filter")
 	}
 	var tmp []MyArtistFull
 
@@ -484,7 +484,7 @@ func FilterByAlbumDate(data []MyArtistFull, albumStart string, albumEnd string) 
 	for _, band := range data {
 		date, err := time.Parse(layOutData, band.FirstAlbum)
 		if err != nil {
-			errors.New("Error by First Album date convert for filter")
+			errors.New("error by First Album date convert for filter")
 		}
 		if dateStart.Before(date) && dateEnd.After(date) {
 			tmp = append(tmp, band)
@@ -516,7 +516,7 @@ func main() {
 	http.HandleFunc("/tour", tourPage)
 
 	port := ":8080"
-	println("Server listen on port:", port)
+	println("Server listen on port", port)
 	err := http.ListenAndServe(port, nil)
 	if err != nil {
 		log.Fatal("Listen and Server", err)
