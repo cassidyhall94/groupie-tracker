@@ -313,8 +313,9 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func concertPage(w http.ResponseWriter, r *http.Request) {
-	idStr := r.FormValue("concert")
-	id, _ := strconv.Atoi(idStr)
+	listOfIds := r.URL.Query()["id"]
+	id, _ := strconv.Atoi(listOfIds[0])
+
 	artist, _ := GetFullDataById(id)
 
 	for key, value := range artist.DatesLocations {
