@@ -105,69 +105,72 @@ func main() {
 	}
 }
 
-//change to GetData(url string) error
-func GetArtistsData() error {
+func GetArtistsData() ([]MyArtist, error) {
+	Artists := []MyArtist{}
 	resp, err := http.Get(baseURL + "/artists")
 	if err != nil {
-		return errors.New("error by get")
+		return Artists, errors.New("error by get")
 	}
 	defer resp.Body.Close()
 
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return errors.New("error by ReadAll")
+		return Artists, errors.New("error by ReadAll")
 	}
 	json.Unmarshal(bytes, &Artists)
-	return nil
+	return Artists, nil
 }
 
-func GetDatesData() error {
+func GetDatesData() (MyDates, error) {
+	Dates := MyDates{}
 	resp, err := http.Get(baseURL + "/dates")
 	if err != nil {
-		return errors.New("error by get")
+		return Dates, errors.New("error by get")
 	}
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return errors.New("error by ReadAll")
+		return Dates, errors.New("error by ReadAll")
 	}
 	json.Unmarshal(bytes, &Dates)
-	return nil
+	return Dates, nil
 }
 
-func GetLocationsData() error {
+func GetLocationsData() (MyLocations, error) {
+	Locations := MyLocations{}
 	resp, err := http.Get(baseURL + "/locations")
 	if err != nil {
-		return errors.New("error by get")
+		return Locations, errors.New("error by get")
 	}
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return errors.New("error by ReadAll")
+		return Locations, errors.New("error by ReadAll")
 	}
 	json.Unmarshal(bytes, &Locations)
-	return nil
+	return Locations, nil
 }
 
-func GetRelationsData() error {
+func GetRelationsData() (MyRelations, error) {
+	Relations := MyRelations{}
 	resp, err := http.Get(baseURL + "/relation")
 	if err != nil {
-		return errors.New("error by get")
+		return Relations, errors.New("error by get")
 	}
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return errors.New("error by ReadAll")
+		return Relations, errors.New("error by ReadAll")
 	}
 	json.Unmarshal(bytes, &Relations)
-	return nil
+	return Relations, nil
 }
 
 func GetData() error {
 	if len(ArtistsFull) != 0 {
 		return nil
 	}
-	err1 := GetArtistsData()
-	err2 := GetLocationsData()
-	err3 := GetDatesData()
-	err4 := GetRelationsData()
+	Artists, err1 := GetArtistsData()
+	Locations, err2 := GetLocationsData()
+	Dates, err3 := GetDatesData()
+	Relations, err4 := GetRelationsData()
 	if err1 != nil || err2 != nil || err3 != nil || err4 != nil {
 		return errors.New("error by get data artists, locations, dates")
 	}
@@ -342,8 +345,7 @@ func tourPage(w http.ResponseWriter, r *http.Request) {
 // good reason to not be in the function signature
 // sometimes it might feel like a variable goes through 5 functions before being used
 // that's a whole other thing but better than global scope
-// func ConverterStructToString(Artists []MyArtist) ([]string, error) {
-func ConverterStructToString() ([]string, error) {
+func ConverterStructToString(ArtistsFull []MyArtistFull) ([]string, error) {
 	var data []string
 	for i := 1; i <= len(ArtistsFull); i++ {
 		artist, err1 := GetArtistByID(i)
@@ -374,7 +376,7 @@ func Search(search string) []MyArtistFull {
 	if search == "" {
 		return ArtistsFull
 	}
-	art, err := ConverterStructToString()
+	art, err := ConverterStructToString(ArtistsFull)
 	if err != nil {
 		errors.New("error by converter")
 	}
