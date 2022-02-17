@@ -1,15 +1,14 @@
 /*
-INTERNAL SERVER ERROR - 500
-CHECK WHY FILTERS DON'T WORK
-MAKE SEARCH WORK (COULD LIST THE BANDS BUT MAYBE FILTER BETTER?)
+DROP DOWN LIST
 MAKE NAME A LINK LIKE ON LAST EXAMPLE
 REMOVE THE BUTTONS AND INSTEAD HAVE THE LINK
 STYLE PAGES
-HAVE FEW BANDS PER PAGE
 MAKE BACKGROUND STAY WHEN SCROLLING
 ADD A TEST FILE
 REMOVE UNNECESSERY THINGS FROM MAIN.GO
 ADD WIKIPEDIA FOR EACH MEMBER
+CREATE DOMAIN FOR SITE TO BE HOSTED
+THINK ABOUT SPLITTING THE MAIN.GO FILE INTO TWO: HANDLERS.GO AND DATAGETTERS.GO?
 */
 package main
 
@@ -27,6 +26,7 @@ import (
 
 const baseURL = "https://groupietrackers.herokuapp.com/api"
 
+// look into merging myartistfull and myartist structs
 type MyArtistFull struct {
 	ID             int                 `json:"id"`
 	Image          string              `json:"image"`
@@ -37,6 +37,7 @@ type MyArtistFull struct {
 	Locations      []string            `json:"locations"`
 	ConcertDates   []string            `json:"concertDates"`
 	DatesLocations map[string][]string `json:"datesLocations"`
+	// Relations      string              `json:"relations"`
 }
 
 type MyArtist struct {
@@ -87,68 +88,89 @@ var (
 	Relations   MyRelations
 )
 
-func GetArtistsData() error {
+func main() {
+	// static folder
+	fs := http.FileServer(http.Dir("static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+
+	http.HandleFunc("/", mainPage)
+	http.HandleFunc("/concert", concertPage)
+	http.HandleFunc("/tour", tourPage)
+
+	port := ":8080"
+	fmt.Println("Server listen on port localhost", port)
+	err := http.ListenAndServe(port, nil)
+	if err != nil {
+		log.Fatal("Listen and Serve", err)
+	}
+}
+
+func GetArtistsData() ([]MyArtist, error) {
+	Artists := []MyArtist{}
 	resp, err := http.Get(baseURL + "/artists")
 	if err != nil {
-		return errors.New("error by get")
+		return Artists, errors.New("error by get")
 	}
 	defer resp.Body.Close()
 
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return errors.New("error by ReadAll")
+		return Artists, errors.New("error by ReadAll")
 	}
 	json.Unmarshal(bytes, &Artists)
-	return nil
+	return Artists, nil
 }
 
-func GetDatesData() error {
+func GetDatesData() (MyDates, error) {
+	Dates := MyDates{}
 	resp, err := http.Get(baseURL + "/dates")
 	if err != nil {
-		return errors.New("error by get")
+		return Dates, errors.New("error by get")
 	}
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return errors.New("error by ReadAll")
+		return Dates, errors.New("error by ReadAll")
 	}
 	json.Unmarshal(bytes, &Dates)
-	return nil
+	return Dates, nil
 }
 
-func GetLocationsData() error {
+func GetLocationsData() (MyLocations, error) {
+	Locations := MyLocations{}
 	resp, err := http.Get(baseURL + "/locations")
 	if err != nil {
-		return errors.New("error by get")
+		return Locations, errors.New("error by get")
 	}
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return errors.New("error by ReadAll")
+		return Locations, errors.New("error by ReadAll")
 	}
 	json.Unmarshal(bytes, &Locations)
-	return nil
+	return Locations, nil
 }
 
-func GetRelationsData() error {
+func GetRelationsData() (MyRelations, error) {
+	Relations := MyRelations{}
 	resp, err := http.Get(baseURL + "/relation")
 	if err != nil {
-		return errors.New("error by get")
+		return Relations, errors.New("error by get")
 	}
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return errors.New("error by ReadAll")
+		return Relations, errors.New("error by ReadAll")
 	}
 	json.Unmarshal(bytes, &Relations)
-	return nil
+	return Relations, nil
 }
 
 func GetData() error {
 	if len(ArtistsFull) != 0 {
 		return nil
 	}
-	err1 := GetArtistsData()
-	err2 := GetLocationsData()
-	err3 := GetDatesData()
-	err4 := GetRelationsData()
+	Artists, err1 := GetArtistsData()
+	Locations, err2 := GetLocationsData()
+	Dates, err3 := GetDatesData()
+	Relations, err4 := GetRelationsData()
 	if err1 != nil || err2 != nil || err3 != nil || err4 != nil {
 		return errors.New("error by get data artists, locations, dates")
 	}
@@ -225,52 +247,8 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 	search := r.FormValue("search")
 	filterByCreationFrom := r.FormValue("startCD")
 	filterByCreationTill := r.FormValue("endCD")
-
-	var mem1, mem2, mem3, mem4, mem5, mem6, mem7, mem8 int
-	mem1, err1 := strconv.Atoi(r.FormValue("mem1"))
-	if err1 != nil {
-		mem1 = 0
-	}
-	mem2, err2 := strconv.Atoi(r.FormValue("mem2"))
-	if err2 != nil {
-		mem2 = 0
-	}
-	mem3, err3 := strconv.Atoi(r.FormValue("mem3"))
-	if err3 != nil {
-		mem3 = 0
-	}
-	mem4, err4 := strconv.Atoi(r.FormValue("mem4"))
-	if err4 != nil {
-		mem4 = 0
-	}
-	mem5, err5 := strconv.Atoi(r.FormValue("mem5"))
-	if err5 != nil {
-		mem5 = 0
-	}
-	mem6, err6 := strconv.Atoi(r.FormValue("mem6"))
-	if err6 != nil {
-		mem6 = 0
-	}
-	mem7, err7 := strconv.Atoi(r.FormValue("mem7"))
-	if err7 != nil {
-		mem7 = 0
-	}
-	mem8, err8 := strconv.Atoi(r.FormValue("mem8"))
-	if err8 != nil {
-		mem8 = 0
-	}
-	mem := []int{mem1, mem2, mem3, mem4, mem5, mem6, mem7, mem8}
-	sum := 0
-	for _, n := range mem {
-		sum += n
-	}
-	println("startCD:", filterByCreationFrom)
-	fmt.Println("mem:", mem)
-
 	filterByFA := r.FormValue("startFA")
 	filterByFAend := r.FormValue("endFA")
-	fmt.Println("filterFA:", filterByFA)
-	fmt.Println("filterFAend:", filterByFAend)
 
 	if !(search == "" && len(data) != 0) {
 		data = Search(search)
@@ -298,7 +276,7 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 
 	tmpl, err := template.ParseFiles("index.html")
 	if err != nil {
-		http.Error(w, err.Error(), 400)
+		http.Error(w, "Internal Server Error: 500", 500)
 		return
 	}
 
@@ -307,63 +285,69 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := tmpl.Execute(w, data); err != nil {
-		http.Error(w, err.Error(), 400)
+		http.Error(w, "Internal Server Error: 500", 500)
 		return
 	}
 }
 
 func concertPage(w http.ResponseWriter, r *http.Request) {
-	listOfIds := r.URL.Query()["id"]
-	id, _ := strconv.Atoi(listOfIds[0])
-
-	artist, _ := GetFullDataById(id)
-
-	for key, value := range artist.DatesLocations {
-		fmt.Print(key + "  - ")
-		for _, e := range value {
-			println(e)
-		}
+	idStr := r.FormValue("concert")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		handle500(err, w)
+		return
+	}
+	artist, err := GetFullDataById(id)
+	if err != nil {
+		http.Error(w, "Bad Request: 400", 400)
+		return
 	}
 
 	tmpl, err := template.ParseFiles("concert.html")
 	if err != nil {
-		http.Error(w, err.Error(), 400)
+		handle500(err, w)
 		return
 	}
 
 	if err := tmpl.Execute(w, artist); err != nil {
-		http.Error(w, err.Error(), 400)
+		handle500(err, w)
 		return
 	}
 }
 
 func tourPage(w http.ResponseWriter, r *http.Request) {
 	idStr := r.FormValue("tour")
-	id, _ := strconv.Atoi(idStr)
-	artist, _ := GetFullDataById(id)
-
-	for key, value := range artist.DatesLocations {
-		fmt.Print(key + "  - ")
-		for _, e := range value {
-			println(e)
-		}
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "Bad Request: 400", 400)
+		return
+	}
+	artist, err := GetFullDataById(id)
+	if err != nil {
+		http.Error(w, "Bad Request: 400", 400)
+		return
 	}
 
 	tmpl, err := template.ParseFiles("tour.html")
 	if err != nil {
-		http.Error(w, err.Error(), 400)
+		handle500(err, w)
 		return
 	}
 
 	if err := tmpl.Execute(w, artist); err != nil {
-		http.Error(w, err.Error(), 400)
+		handle500(err, w)
 		return
 	}
 }
 
-func ConverterStructToString() ([]string, error) {
+// this needs a better name, figure out what it's doing
+// if a variable is being used in a function it needs a very
+// good reason to not be in the function signature
+// sometimes it might feel like a variable goes through 5 functions before being used
+// that's a whole other thing but better than global scope
+func ConverterStructToString(ArtistsFull []MyArtistFull) ([]string, error) {
 	var data []string
-	for i := 1; i <= len(Artists); i++ {
+	for i := 1; i <= len(ArtistsFull); i++ {
 		artist, err1 := GetArtistByID(i)
 		locations, err2 := GetLocationByID(i)
 		date, err3 := GetDateByID(i)
@@ -385,7 +369,6 @@ func ConverterStructToString() ([]string, error) {
 		}
 		data = append(data, str)
 	}
-	println("Convert to str Done!")
 	return data, nil
 }
 
@@ -393,7 +376,7 @@ func Search(search string) []MyArtistFull {
 	if search == "" {
 		return ArtistsFull
 	}
-	art, err := ConverterStructToString()
+	art, err := ConverterStructToString(ArtistsFull)
 	if err != nil {
 		errors.New("error by converter")
 	}
@@ -418,7 +401,10 @@ func Search(search string) []MyArtistFull {
 					}
 				}
 				if len(search) == length_name {
-					band, _ := GetFullDataById(i + 1)
+					band, err := GetFullDataById(i + 1)
+					if err != nil {
+						fmt.Println(err)
+					}
 					search_artist = append(search_artist, band)
 					break
 				}
@@ -426,23 +412,18 @@ func Search(search string) []MyArtistFull {
 		}
 
 	}
-	println("Search str Done!")
 	return search_artist
 }
 
-func main() {
-	// static folder
-	fs := http.FileServer(http.Dir("static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
-
-	http.HandleFunc("/", mainPage)
-	http.HandleFunc("/concert", concertPage)
-	http.HandleFunc("/tour", tourPage)
-
-	port := ":8080"
-	println("Server listen on port", port)
-	err := http.ListenAndServe(port, nil)
+func handle500(err error, w http.ResponseWriter) {
+	w.WriteHeader(http.StatusInternalServerError)
+	w.Header().Set("Content-Type", "application/json")
+	resp := make(map[string]string)
+	resp["message"] = "Some Error Occurred"
+	jsonResp, err := json.Marshal(resp)
 	if err != nil {
-		log.Fatal("Listen and Server", err)
+		log.Fatalf("Error happened in JSON marshal. Err: %s", err)
 	}
+	w.Write(jsonResp)
+	return
 }
