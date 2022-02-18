@@ -1,5 +1,6 @@
 html,
 body {
+ 
 	font-family: 'Roboto';
 	color: rgba(0, 0, 0, 0.637);
     /*background-image: 
@@ -12,11 +13,13 @@ body {
 }
 
 .logo>a {
+  
 	font-family: 'Pacifico';
 	font-size: 44px;
 	color:  rgb(4 48 14 / 74%);
 	text-decoration: none;
 }
+
 /* .card {
     margin-bottom: 20px;
 } */

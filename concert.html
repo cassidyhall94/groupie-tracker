@@ -14,12 +14,59 @@
 </head>
 
 <body>
-
+    <nav
+    class="navbar navbar-expand-lg navbar navbar-dark fixed-top"
+    style="background: linear-gradient(#121418, #021011)"
+  >
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/" title="Homepage">Groupie Tracker</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="/about.html"
+              title="Tour"
+              >Tour</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="/projects.html"
+              title="Projects of Jagoda Sadowska"
+              >Projects</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="/about.html#contact"
+              title="About the project"
+              >About</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
     <section>
+        <br><br><br>
         <div>
             <a href="/" target="_self">Main Page</a>
         </div>
-
+       
         <div class="media">
             <img class="mr-3" src={{.Image}} width="450" alt={{.Name}}>
             <div class="media-body artist">
