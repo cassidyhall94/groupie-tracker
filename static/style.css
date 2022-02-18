@@ -2,8 +2,8 @@ html,
 body {
 	font-family: 'Roboto';
 	color: rgba(0, 0, 0, 0.637);
-    background-image: 
-    url(../static/mainpage.jpg);
+    /*background-image: 
+    url(../static/mainpage.jpg);*/
     background-position: left;
     background-repeat: no-repeat;
     background-size: cover;
@@ -35,7 +35,7 @@ body {
     background-color: transparent;
     width: 300px;
     height: 200px;
-    border: 1px solid #f1f1f1;
+    /*border: 1px solid #f1f1f1;*/
     perspective: 1000px; /* Remove this if you don't want the 3D effect */
   }
   
@@ -75,3 +75,9 @@ body {
     color: white;
     transform: rotateY(180deg);
   }
+  /* .zoom:hover {
+    -ms-transform: scale(1.1); 
+    -webkit-transform: scale(1.1); 
+    transform: scale(1.1); 
+  } 
+  */

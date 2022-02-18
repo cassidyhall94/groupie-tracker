@@ -11,16 +11,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
     <link rel="stylesheet" href="static/style.css">
-
 </head>
 
 <body>
 
     <section>
         <div>
-            <form class="form-inline" action="/" method="POST">
-                <input type="submit" class="btn btn-light" value="Main Page">
-            </form>
+            <a href="/" target="_self">Main Page</a>
         </div>
 
         <div class="media">
@@ -40,27 +37,22 @@
                             <br> {{end}} {{end}}
                         </div>
                     </div> -->
-                    <div class="card-body">
-                        <h5 class="card-title">Members:</h5>
-                        {{range .Members}}
-                        <ul class="card-text">
-                            <li style="margin-bottom: 0rem;">{{.}}</li>
-                        </ul>
-                        {{end}}
-                        <h5 class="card-title">Creation Date:</h5>
-                        <p class="card-text"> {{.CreationDate}}</p>
-                        <h5 class="card-title">First Album Released:</h5>
-                        <p class="card-text">{{.FirstAlbum}}</p>
-                </p>
+                <div class="card-body">
+                    <h5 class="card-title">Members:</h5>
+                    {{range .Members}}
+                    <ul class="card-text">
+                        <li style="margin-bottom: 0rem;">{{.}}</li>
+                    </ul>
+                    {{end}}
+                    <h5 class="card-title">Creation Date:</h5>
+                    <p class="card-text"> {{.CreationDate}}</p>
+                    <h5 class="card-title">First Album Released:</h5>
+                    <p class="card-text">{{.FirstAlbum}}</p>
+                    </p>
 
 
+                </div>
             </div>
-        </div>
-
-
-
-
-
 
     </section>
 
