@@ -44,6 +44,12 @@
                         <li style="margin-bottom: 0rem;">{{.}}</li>
                     </ul>
                     {{end}}
+                    <h5 class="card-title">WikiLink:</h5>
+                    {{range .WikiLink}}
+                    <ul class=" card-text">
+                        <li style="margin-bottom: 0rem;"><a href="{{.}}">{{.}}</a></li>
+                    </ul>
+                    {{end}}
                     <h5 class="card-title">Creation Date:</h5>
                     <p class="card-text"> {{.CreationDate}}</p>
                     <h5 class="card-title">First Album Released:</h5>
