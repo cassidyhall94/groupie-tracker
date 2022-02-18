@@ -1,12 +1,59 @@
 package main
 
-// import (
-// 	"net/http"
-// 	"net/http/httptest"
-// 	"net/url"
-// 	"strings"
-// 	"testing"
-// )
+import (
+	"net/http"
+	"net/http/httptest"
+	"testing"
+)
+
+func TestMainPageHandler(t *testing.T) {
+	req, err := http.NewRequest("GET", "/", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(mainPage)
+
+	handler.ServeHTTP(rr, req)
+
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+}
+
+func TestTourPageHandler(t *testing.T) {
+	req, err := http.NewRequest("GET", "/tour", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(tourPage)
+
+	handler.ServeHTTP(rr, req)
+
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+}
+
+func TestConcertPageHandler(t *testing.T) {
+	req, err := http.NewRequest("GET", "/concert", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(concertPage)
+
+	handler.ServeHTTP(rr, req)
+
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+}
 
 // func TestGroupie(t *testing.T) {
 // 	testCases := []struct {
