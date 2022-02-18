@@ -39,9 +39,9 @@
                     </div> -->
                 <div class="card-body">
                     <h5 class="card-title">Members:</h5>
-                    {{range .Members}}
+                    {{range $i, $m :=.Members}}
                     <ul class="card-text">
-                        <li style="margin-bottom: 0rem;">{{.}}</li>
+                        <li style="margin-bottom: 0rem;"><a href="{{index $.WikiLink $i}}">{{$m}}</a></li>
                     </ul>
                     {{end}}
                     <h5 class="card-title">Creation Date:</h5>
@@ -49,13 +49,9 @@
                     <h5 class="card-title">First Album Released:</h5>
                     <p class="card-text">{{.FirstAlbum}}</p>
                     </p>
-
-
                 </div>
             </div>
-
     </section>
-
 </body>
 
 </html>

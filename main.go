@@ -13,6 +13,7 @@ THINK ABOUT SPLITTING THE MAIN.GO FILE INTO TWO: HANDLERS.GO AND DATAGETTERS.GO?
 package main
 
 import (
+	"encoding/csv"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -20,6 +21,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -37,6 +39,7 @@ type MyArtistFull struct {
 	Locations      []string            `json:"locations"`
 	ConcertDates   []string            `json:"concertDates"`
 	DatesLocations map[string][]string `json:"datesLocations"`
+	WikiLink       []string
 	// Relations      string              `json:"relations"`
 }
 
@@ -80,12 +83,18 @@ type MyRelations struct {
 	Index []MyRelation `json:"index"`
 }
 
+type MemberWikiLinks struct {
+	Name string `json:"name"`
+	Link string `json:"link"`
+}
+
 var (
 	ArtistsFull []MyArtistFull
 	Artists     []MyArtist
 	Dates       MyDates
 	Locations   MyLocations
 	Relations   MyRelations
+	MemLinks    []MemberWikiLinks
 )
 
 func main() {
@@ -103,6 +112,47 @@ func main() {
 	if err != nil {
 		log.Fatal("Listen and Serve", err)
 	}
+}
+
+func GetWikiLinks() error {
+
+	csvFile, err := os.Open("members-wiki.txt")
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer csvFile.Close()
+
+	reader := csv.NewReader(csvFile)
+	reader.LazyQuotes = true
+
+	reader.FieldsPerRecord = -1
+
+	csvData, err := reader.ReadAll()
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	var oneRecord MemberWikiLinks
+	var allRecords []MemberWikiLinks
+
+	for _, each := range csvData {
+		oneRecord.Name = each[0]
+		oneRecord.Link = each[1]
+		allRecords = append(allRecords, oneRecord)
+	}
+
+	jsondata, err := json.Marshal(allRecords) // convert to JSON
+	json.Unmarshal(jsondata, &MemLinks)
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	return nil
 }
 
 func GetArtistsData() ([]MyArtist, error) {
@@ -160,6 +210,7 @@ func GetRelationsData() (MyRelations, error) {
 		return Relations, errors.New("error by ReadAll")
 	}
 	json.Unmarshal(bytes, &Relations)
+	fmt.Println(Relations.Index[0].DatesLocations)
 	return Relations, nil
 }
 
@@ -171,11 +222,21 @@ func GetData() error {
 	Locations, err2 := GetLocationsData()
 	Dates, err3 := GetDatesData()
 	Relations, err4 := GetRelationsData()
-	if err1 != nil || err2 != nil || err3 != nil || err4 != nil {
+	err5 := GetWikiLinks()
+	if err1 != nil || err2 != nil || err3 != nil || err4 != nil || err5 != nil {
 		return errors.New("error by get data artists, locations, dates")
 	}
 	for i := range Artists {
+
 		var tmpl MyArtistFull
+		var addMemLinks []string
+		for j := 0; j < len(Artists[i].Members); j++ {
+			for m := 0; m < len(MemLinks); m++ {
+				if MemLinks[m].Name == Artists[i].Members[j] {
+					addMemLinks = append(addMemLinks, MemLinks[m].Link)
+				}
+			}
+		}
 		tmpl.ID = i + 1
 		tmpl.Image = Artists[i].Image
 		tmpl.Name = Artists[i].Name
@@ -185,6 +246,7 @@ func GetData() error {
 		tmpl.Locations = Locations.Index[i].Locations
 		tmpl.ConcertDates = Dates.Index[i].Dates
 		tmpl.DatesLocations = Relations.Index[i].DatesLocations
+		tmpl.WikiLink = addMemLinks
 		ArtistsFull = append(ArtistsFull, tmpl)
 	}
 	return nil
@@ -276,7 +338,7 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 
 	tmpl, err := template.ParseFiles("index.html")
 	if err != nil {
-		http.Error(w, "Internal Server Error: 500", 500)
+		handle500(err, w)
 		return
 	}
 
@@ -285,18 +347,19 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := tmpl.Execute(w, data); err != nil {
-		http.Error(w, "Internal Server Error: 500", 500)
+		handle500(err, w)
 		return
 	}
 }
 
 func concertPage(w http.ResponseWriter, r *http.Request) {
-	idStr := r.FormValue("concert")
-	id, err := strconv.Atoi(idStr)
+	listOfIds := r.URL.Query()["id"]
+	id, err := strconv.Atoi(listOfIds[0])
 	if err != nil {
 		handle500(err, w)
 		return
 	}
+
 	artist, err := GetFullDataById(id)
 	if err != nil {
 		http.Error(w, "Bad Request: 400", 400)
@@ -340,31 +403,6 @@ func tourPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
-
-/*func tourPage(w http.ResponseWriter, r *http.Request) {
-	idStr := r.FormValue("tour")
-	id, err := strconv.Atoi(idStr)
-	if err != nil {
-		http.Error(w, "Bad Request: 400", 400)
-		return
-	}
-	artist, err := GetFullDataById(id)
-	if err != nil {
-		http.Error(w, "Bad Request: 400", 400)
-		return
-	}
-
-	tmpl, err := template.ParseFiles("tour.html")
-	if err != nil {
-		handle500(err, w)
-		return
-	}
-
-	if err := tmpl.Execute(w, artist); err != nil {
-		handle500(err, w)
-		return
-	}
-}*/
 
 // this needs a better name, figure out what it's doing
 // if a variable is being used in a function it needs a very
@@ -445,7 +483,7 @@ func handle500(err error, w http.ResponseWriter) {
 	w.WriteHeader(http.StatusInternalServerError)
 	w.Header().Set("Content-Type", "application/json")
 	resp := make(map[string]string)
-	resp["message"] = "Some Error Occurred"
+	resp["500"] = "Internal Server Error"
 	jsonResp, err := json.Marshal(resp)
 	if err != nil {
 		log.Fatalf("Error happened in JSON marshal. Err: %s", err)
