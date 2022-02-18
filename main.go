@@ -276,7 +276,7 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 
 	tmpl, err := template.ParseFiles("index.html")
 	if err != nil {
-		http.Error(w, "Internal Server Error: 500", 500)
+		handle500(err, w)
 		return
 	}
 
@@ -285,18 +285,19 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := tmpl.Execute(w, data); err != nil {
-		http.Error(w, "Internal Server Error: 500", 500)
+		handle500(err, w)
 		return
 	}
 }
 
 func concertPage(w http.ResponseWriter, r *http.Request) {
-	idStr := r.FormValue("concert")
-	id, err := strconv.Atoi(idStr)
+	listOfIds := r.URL.Query()["id"]
+	id, err := strconv.Atoi(listOfIds[0])
 	if err != nil {
 		handle500(err, w)
 		return
 	}
+
 	artist, err := GetFullDataById(id)
 	if err != nil {
 		http.Error(w, "Bad Request: 400", 400)
@@ -419,7 +420,7 @@ func handle500(err error, w http.ResponseWriter) {
 	w.WriteHeader(http.StatusInternalServerError)
 	w.Header().Set("Content-Type", "application/json")
 	resp := make(map[string]string)
-	resp["message"] = "Some Error Occurred"
+	resp["500"] = "Internal Server Error"
 	jsonResp, err := json.Marshal(resp)
 	if err != nil {
 		log.Fatalf("Error happened in JSON marshal. Err: %s", err)
