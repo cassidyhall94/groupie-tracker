@@ -27,29 +27,22 @@
             <img class="mr-3" src={{.Image}} width="450" alt={{.Name}}>
             <div class="media-body artist">
                 <h1>{{.Name}}</h1>
-                <p><b>Creation Date:</b> {{.CreationDate}} <b>First Album Released:</b> {{.FirstAlbum}}</p>
-                <p><b>Members:</b> {{range .Members}} {{.}}, {{end}}
-                    <div class="conteiner">
-                        <div>
-                            {{range $key, $value := .DatesLocations}}
-                            <div class="artist-data">
-                                <b>{{$key}}</b>
-                            </div>
-                            {{range $value}}
-                            <div class="data">{{.}}</div>
-                            <br> {{end}} {{end}}
+                <div class="conteiner">
+                    <div>
+                        {{range $key, $value := .DatesLocations}}
+                        <div class="artist-data">
+                            <b>{{$key}}</b>
                         </div>
+                        {{range $value}}
+                        <div class="data">{{.}}</div>
+                        <br> {{end}} {{end}}
                     </div>
+                </div>
                 </p>
 
 
             </div>
         </div>
-
-
-
-
-
 
     </section>
 

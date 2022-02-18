@@ -316,6 +316,32 @@ func concertPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func tourPage(w http.ResponseWriter, r *http.Request) {
+	listOfIds := r.URL.Query()["id"]
+	id, err := strconv.Atoi(listOfIds[0])
+	if err != nil {
+		handle500(err, w)
+		return
+	}
+
+	artist, err := GetFullDataById(id)
+	if err != nil {
+		http.Error(w, "Bad Request: 400", 400)
+		return
+	}
+
+	tmpl, err := template.ParseFiles("tour.html")
+	if err != nil {
+		handle500(err, w)
+		return
+	}
+
+	if err := tmpl.Execute(w, artist); err != nil {
+		handle500(err, w)
+		return
+	}
+}
+
+/*func tourPage(w http.ResponseWriter, r *http.Request) {
 	idStr := r.FormValue("tour")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
@@ -338,7 +364,7 @@ func tourPage(w http.ResponseWriter, r *http.Request) {
 		handle500(err, w)
 		return
 	}
-}
+}*/
 
 // this needs a better name, figure out what it's doing
 // if a variable is being used in a function it needs a very

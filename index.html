@@ -74,7 +74,8 @@
                         <a href="/concert?id={{.ID}}" name="concert"> {{.Name}}</a>
                     </h1>
                     <p><b>Creation Date:</b> {{.CreationDate}}</p>
-                    <p><b>Members:</b> {{range .Members}} {{.}}, {{end}}
+                    <p><b>First Album Received:</b> {{.FirstAlbum}}</p>
+                    <a href="/tour?id={{.ID}}" name="tour">Tour Dates</a>
                 </div>
             </div>
         </div>
