@@ -10,25 +10,23 @@ import (
 	"strings"
 )
 
-var data []MyArtistFull
-
 // this needs a better name, figure out what it's doing
-func ConverterStructToString(ArtistsFull []MyArtistFull) ([]string, error) {
+func ConverterStructToString() ([]string, []MyArtistFull, error) {
 	var data []string
-	ArtistsFull, err := GetData()
+	ArtistsFull, Artists, Locations, Dates, _, _, err := GetData()
 	if err != nil || len(ArtistsFull) == 0 {
 		if err == nil {
 			err = errors.New("empty ArtistsFull from GetData")
 		}
 		fmt.Printf("GetData() error: %+v", err)
-		return nil, err
+		return nil, []MyArtistFull{}, err
 	}
 	for i := 1; i <= len(ArtistsFull); i++ {
-		artist, err1 := GetArtistByID(i)
-		locations, err2 := GetLocationByID(i)
-		date, err3 := GetDateByID(i)
+		artist, err1 := GetArtistByID(i, Artists)
+		locations, err2 := GetLocationByID(i, Locations)
+		date, err3 := GetDateByID(i, Dates)
 		if err1 != nil || err2 != nil || err3 != nil {
-			return data, errors.New("error by converter")
+			return data, []MyArtistFull{}, errors.New("error by converter")
 		}
 
 		str := artist.Name + " "
@@ -45,7 +43,7 @@ func ConverterStructToString(ArtistsFull []MyArtistFull) ([]string, error) {
 		}
 		data = append(data, str)
 	}
-	return data, nil
+	return data, ArtistsFull, nil
 }
 
 func Search(search string) []MyArtistFull {
@@ -53,12 +51,12 @@ func Search(search string) []MyArtistFull {
 	if search == "" {
 		return ArtistsFull
 	}
-	art, err := ConverterStructToString(ArtistsFull)
+	art, ArtistsFull, err := ConverterStructToString()
 	if err != nil {
+		fmt.Printf("ConverterStructToString: (AF: %+v)", ArtistsFull)
 		log.Fatal(errors.New("error by converter"))
 	}
-	var search_artist []MyArtistFull
-
+	search_artist := []MyArtistFull{}
 	for i, artist := range art {
 		lower_band := strings.ToLower(artist)
 		for i_name, l_name := range []byte(lower_band) {
@@ -78,7 +76,7 @@ func Search(search string) []MyArtistFull {
 					}
 				}
 				if len(search) == length_name {
-					band, err := GetFullDataById(i + 1)
+					band, err := GetFullDataById(i+1, ArtistsFull)
 					if err != nil {
 						fmt.Println(err)
 					}

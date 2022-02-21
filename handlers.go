@@ -16,8 +16,12 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 	filterByFA := r.FormValue("startFA")
 	filterByFAend := r.FormValue("endFA")
 
-	if !(search == "" && len(data) != 0) {
+	data := []MyArtistFull{}
+	if !(search == "") {
 		data = Search(search)
+		fmt.Println("search")
+	} else {
+		data = Search("a")
 	}
 
 	if filterByCreationFrom != "" || filterByCreationTill != "" {
@@ -49,10 +53,11 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 
 	if main == "Main Page" {
 		data = Search("a")
+		fmt.Println("main page")
 	}
 
 	if err := tmpl.Execute(w, data); err != nil {
-		fmt.Printf("Execute(w, data) (%s) error: %+v", data, err)
+		fmt.Printf("Execute(w, data) (%v) error: %+v", data, err)
 		handle500(err, w)
 		return
 	}
@@ -67,7 +72,7 @@ func concertPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ArtistsFull, err := GetData()
+	ArtistsFull, _, _, _, _, _, err := GetData()
 	if err != nil || len(ArtistsFull) == 0 {
 		if err == nil {
 			err = errors.New("empty ArtistsFull from GetData")
@@ -91,7 +96,7 @@ func concertPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := tmpl.Execute(w, artist); err != nil {
-		fmt.Printf("Execute(w, artist) (%s) error: %+v", artist, err)
+		fmt.Printf("Execute(w, artist) (%v) error: %+v", artist, err)
 		handle500(err, w)
 		return
 	}
@@ -106,7 +111,7 @@ func tourPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ArtistsFull, err := GetData()
+	ArtistsFull, _, _, _, _, _, err := GetData()
 	if err != nil || len(ArtistsFull) == 0 {
 		if err == nil {
 			err = errors.New("empty ArtistsFull from GetData")
@@ -130,7 +135,7 @@ func tourPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := tmpl.Execute(w, artist); err != nil {
-		fmt.Printf("Execute(w, artist) (%s) error: %+v", artist, err)
+		fmt.Printf("Execute(w, artist) (%v) error: %+v", artist, err)
 		handle500(err, w)
 		return
 	}

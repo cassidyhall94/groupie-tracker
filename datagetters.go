@@ -109,7 +109,7 @@ func GetRelationsData() (MyRelations, error) {
 	return Relations, nil
 }
 
-func GetData() ([]MyArtistFull, error) {
+func GetData() ([]MyArtistFull, []MyArtist, MyLocations, MyDates, MyRelations, []MemberWikiLinks, error) {
 	Artists, err1 := GetArtistsData()
 	Locations, err2 := GetLocationsData()
 	Dates, err3 := GetDatesData()
@@ -117,7 +117,7 @@ func GetData() ([]MyArtistFull, error) {
 	MemLinks, err5 := GetWikiLinks()
 	// TODO: Handler these where they happen
 	if err1 != nil || err2 != nil || err3 != nil || err4 != nil || err5 != nil {
-		return []MyArtistFull{}, errors.New("error by get data artists, locations, dates, relations, or memlinks")
+		return []MyArtistFull{}, []MyArtist{}, MyLocations{}, MyDates{}, MyRelations{}, []MemberWikiLinks{}, errors.New("error by get data artists, locations, dates, relations, or memlinks")
 	}
 	ret := []MyArtistFull{}
 	for i := range Artists {
@@ -142,7 +142,7 @@ func GetData() ([]MyArtistFull, error) {
 		tmpl.WikiLink = addMemLinks
 		ret = append(ret, tmpl)
 	}
-	return ret, nil
+	return ret, Artists, Locations, Dates, Relations, MemLinks, nil
 }
 
 func GetArtistByID(id int, Artists []MyArtist) (MyArtist, error) {
@@ -151,7 +151,7 @@ func GetArtistByID(id int, Artists []MyArtist) (MyArtist, error) {
 			return artist, nil
 		}
 	}
-	return MyArtist{}, errors.New("not found")
+	return MyArtist{}, errors.New("artist not found")
 }
 
 func GetDateByID(id int, Dates MyDates) (MyDate, error) {
@@ -160,7 +160,7 @@ func GetDateByID(id int, Dates MyDates) (MyDate, error) {
 			return date, nil
 		}
 	}
-	return MyDate{}, errors.New("not found")
+	return MyDate{}, errors.New("date not found")
 }
 
 func GetLocationByID(id int, Locations MyLocations) (MyLocation, error) {
@@ -169,7 +169,7 @@ func GetLocationByID(id int, Locations MyLocations) (MyLocation, error) {
 			return location, nil
 		}
 	}
-	return MyLocation{}, errors.New("not found")
+	return MyLocation{}, errors.New("location not found")
 }
 
 func GetRelationByID(id int, Relations MyRelations) (MyRelation, error) {
@@ -178,7 +178,7 @@ func GetRelationByID(id int, Relations MyRelations) (MyRelation, error) {
 			return relation, nil
 		}
 	}
-	return MyRelation{}, errors.New("not found")
+	return MyRelation{}, errors.New("relation not found")
 }
 
 func GetFullDataById(id int, ArtistsFull []MyArtistFull) (MyArtistFull, error) {
@@ -187,5 +187,5 @@ func GetFullDataById(id int, ArtistsFull []MyArtistFull) (MyArtistFull, error) {
 			return artist, nil
 		}
 	}
-	return MyArtistFull{}, errors.New("not found")
+	return MyArtistFull{}, errors.New("fulldata not found")
 }
