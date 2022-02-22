@@ -14,53 +14,54 @@
 </head>
 
 <body>
-    <nav
-    class="navbar navbar-expand-lg navbar navbar-dark fixed-top"
-    style="background: linear-gradient(#121418, #021011)"
-  >
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/" title="Homepage">Groupie Tracker</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="/about.html"
-              title="Tour"
-              >Tour</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="/projects.html"
-              title="Projects of Jagoda Sadowska"
-              >Projects</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="/about.html#contact"
-              title="About the project"
-              >About</a
-            >
-          </li>
-        </ul>
-      </div>
+  <nav
+  class="navbar navbar-expand-lg navbar navbar-dark fixed-top"
+  style="background: linear-gradient(#121418, #021011)"
+>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/" title="Homepage">Groupie Tracker</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/tour"
+            title="Tour"
+            >Tour</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/concert"
+            title="All of the bands"
+            >Bands</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/about"
+            title="About the project"
+            >About</a
+          >
+        </li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
     <section>
         <br><br><br>
         <div>
@@ -73,8 +74,8 @@
                 <h1>{{.Name}}</h1>
                 <p><b>Creation Date:</b> {{.CreationDate}} <b>First Album Released:</b> {{.FirstAlbum}}</p>
                 <p><b>Members:</b> {{range .Members}} {{.}}, {{end}}
-                    <!-- <div class="conteiner">
-                        <div>
+                    <div class="conteiner">
+                        <!-- <div>
                             {{range $key, $value := .DatesLocations}}
                             <div class="artist-data">
                                 <b>{{$key}}</b>
@@ -83,8 +84,8 @@
                             <div class="data">{{.}}</div>
                             <br> {{end}} {{end}}
                         </div>
-                    </div> -->
-                <div class="card-body">
+                    </div>
+                <div class="card-body"> -->
                     <h5 class="card-title">Members:</h5>
                     {{range $i, $m :=.Members}}
                     <ul class="card-text">

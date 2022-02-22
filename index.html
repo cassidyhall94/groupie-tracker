@@ -40,7 +40,7 @@
             <li class="nav-item">
               <a
                 class="nav-link"
-                href="/.html"
+                href="/tour"
                 title="Tour"
                 >Tour</a
               >
@@ -48,7 +48,7 @@
             <li class="nav-item">
               <a
                 class="nav-link"
-                href="/concert.html"
+                href="/concert"
                 title="All of the bands"
                 >Bands</a
               >
@@ -56,7 +56,7 @@
             <li class="nav-item">
               <a
                 class="nav-link"
-                href="/about.html"
+                href="/about"
                 title="About the project"
                 >About</a
               >
@@ -68,7 +68,7 @@
 
     <!-- Visible content -->
     <div class="container">
-        <br><br><br>
+        
         <!-- Logo -->
         <div class="logo d-flex justify-content-center mt-3 mb-4">
             <a href="/" target="_self">Groupie Tracker</a>
@@ -77,11 +77,11 @@
     
 
     
-    <form method="POST" action="/concert">
+    <form method="POST" action="/concert" class="search-bands">
         <label for="selection">Artists:</label>
         <select id="id" name="selection">
             {{range .}}
-            <option value="1"><a href="/concert?id={{.ID}}" name="concert"> {{.Name}}</a></option>
+            <option value="1"><a href="/concert?id={{.ID}}" name="concert" id="band"> {{.Name}}</a></option>
         {{end}}       
         </select>
         <input type="submit" value="Select">
@@ -122,7 +122,7 @@
             <div class="flip-card-inner">
                 <div class="flip-card-front">
                     <div class="col">
-                        <div class="card text-black bg-light h-50" style="width: 200px; margin: 5px 5px 5px 15px;"
+                        <div class="card text-black bg-light h-50" style="width: 190px; margin: 5px 5px 5px 45px;"
                             id="card">
                             <img id="img" src={{.Image}} class="card-img-top" alt={{.Name}}>
                         </div>
