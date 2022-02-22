@@ -5,10 +5,7 @@ REMOVE THE BUTTONS AND INSTEAD HAVE THE LINK
 STYLE PAGES
 MAKE BACKGROUND STAY WHEN SCROLLING
 ADD A TEST FILE
-REMOVE UNNECESSERY THINGS FROM MAIN.GO
-ADD WIKIPEDIA FOR EACH MEMBER
 CREATE DOMAIN FOR SITE TO BE HOSTED
-THINK ABOUT SPLITTING THE MAIN.GO FILE INTO TWO: HANDLERS.GO AND DATAGETTERS.GO?
 */
 package main
 
@@ -20,7 +17,6 @@ import (
 
 const baseURL = "https://groupietrackers.herokuapp.com/api"
 
-// look into merging myartistfull and myartist structs
 type MyArtistFull struct {
 	ID             int                 `json:"id"`
 	Image          string              `json:"image"`
@@ -89,7 +85,7 @@ func main() {
 	http.HandleFunc("/tour", tourPage)
 
 	port := ":8080"
-	fmt.Println("Server listen on port localhost", port)
+	fmt.Println("Server listen on port localhost:8080")
 	err := http.ListenAndServe(port, nil)
 	if err != nil {
 		log.Fatal("Listen and Serve", err)
