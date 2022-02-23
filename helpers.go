@@ -90,7 +90,7 @@ func Search(search string) []MyArtistFull {
 	return search_artist
 }
 
-func handle500(err error, w http.ResponseWriter) {
+func handle500(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusInternalServerError)
 	w.Header().Set("Content-Type", "application/json")
 	resp := make(map[string]string)
@@ -100,10 +100,10 @@ func handle500(err error, w http.ResponseWriter) {
 		log.Fatalf("Error happened in JSON marshal. Err: %s", err)
 	}
 	w.Write(jsonResp)
-	return
+	// return
 }
 
-func handle400(err error, w http.ResponseWriter) {
+func handle400(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusBadRequest)
 	w.Header().Set("Content-Type", "application/json")
 	resp := make(map[string]string)
@@ -113,5 +113,5 @@ func handle400(err error, w http.ResponseWriter) {
 		log.Fatalf("Error happened in JSON marshal. Err: %s", err)
 	}
 	w.Write(jsonResp)
-	return
+	// return
 }

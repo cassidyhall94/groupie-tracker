@@ -46,8 +46,8 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 
 	tmpl, err := template.ParseFiles("index.html")
 	if err != nil {
-		fmt.Printf("index.html, error: %+v", err)
-		handle500(err, w)
+		// fmt.Printf("index.html, error: %+v/n", err)
+		handle500(w)
 		return
 	}
 
@@ -57,8 +57,8 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := tmpl.Execute(w, data); err != nil {
-		fmt.Printf("Execute(w, data) (%v) error: %+v", data, err)
-		handle500(err, w)
+		// fmt.Printf("Execute(w, data) error: %+v/n", err)
+		handle500(w)
 		return
 	}
 }
@@ -68,7 +68,7 @@ func concertPage(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(listOfIds[0])
 	if err != nil {
 		fmt.Printf("Atoi(listOfIds[0])(%s) error: %+v", listOfIds, err)
-		handle400(err, w)
+		handle400(w)
 		return
 	}
 
@@ -78,26 +78,26 @@ func concertPage(w http.ResponseWriter, r *http.Request) {
 			err = errors.New("empty ArtistsFull from GetData")
 		}
 		fmt.Printf("GetData() error: %+v", err)
-		handle500(err, w)
+		handle500(w)
 		return
 	}
 	artist, err := GetFullDataById(id, ArtistsFull)
 	if err != nil {
 		fmt.Printf("GetFullDataByID(%d) error: %+v\n", id, err)
-		handle400(err, w)
+		handle400(w)
 		return
 	}
 
 	tmpl, err := template.ParseFiles("concert.html")
 	if err != nil {
 		fmt.Printf("concert.html, error: %+v", err)
-		handle500(err, w)
+		handle500(w)
 		return
 	}
 
 	if err := tmpl.Execute(w, artist); err != nil {
 		fmt.Printf("Execute(w, artist) (%v) error: %+v", artist, err)
-		handle500(err, w)
+		handle500(w)
 		return
 	}
 }
@@ -107,7 +107,7 @@ func tourPage(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		fmt.Printf("Atoi(idStr)(%s) error: %+v", idStr, err)
-		handle400(err, w)
+		handle400(w)
 		return
 	}
 
@@ -117,26 +117,26 @@ func tourPage(w http.ResponseWriter, r *http.Request) {
 			err = errors.New("empty ArtistsFull from GetData")
 		}
 		fmt.Printf("GetData() error: %+v", err)
-		handle500(err, w)
+		handle500(w)
 		return
 	}
 	artist, err := GetFullDataById(id, ArtistsFull)
 	if err != nil {
 		fmt.Printf("GetFullDataByID(%d) error: %+v", id, err)
-		handle400(err, w)
+		handle400(w)
 		return
 	}
 
 	tmpl, err := template.ParseFiles("tour.html")
 	if err != nil {
 		fmt.Printf("tour.html, error: %+v", err)
-		handle500(err, w)
+		handle500(w)
 		return
 	}
 
 	if err := tmpl.Execute(w, artist); err != nil {
 		fmt.Printf("Execute(w, artist) (%v) error: %+v", artist, err)
-		handle500(err, w)
+		handle500(w)
 		return
 	}
 }

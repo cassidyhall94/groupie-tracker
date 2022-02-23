@@ -13,39 +13,29 @@ import (
 func GetWikiLinks() ([]MemberWikiLinks, error) {
 	MemLinks := []MemberWikiLinks{}
 	csvFile, err := os.Open("members-wiki.txt")
-
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("cvsFile error: %+v", err)
 	}
-
 	defer csvFile.Close()
-
 	reader := csv.NewReader(csvFile)
 	reader.LazyQuotes = true
-
 	reader.FieldsPerRecord = -1
-
 	csvData, err := reader.ReadAll()
-
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("csvData error: %+v", err)
 		os.Exit(1)
 	}
-
 	var oneRecord MemberWikiLinks
 	var allRecords []MemberWikiLinks
-
 	for _, each := range csvData {
 		oneRecord.Name = each[0]
 		oneRecord.Link = each[1]
 		allRecords = append(allRecords, oneRecord)
 	}
-
 	jsondata, err := json.Marshal(allRecords) // convert to JSON
 	json.Unmarshal(jsondata, &MemLinks)
-
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("jsondata error: %+v", err)
 		os.Exit(1)
 	}
 	return MemLinks, nil
@@ -55,13 +45,13 @@ func GetArtistsData() ([]MyArtist, error) {
 	Artists := []MyArtist{}
 	resp, err := http.Get(baseURL + "/artists")
 	if err != nil {
-		return Artists, errors.New("error by get")
+		return Artists, errors.New("error by get Artists")
 	}
 	defer resp.Body.Close()
 
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return Artists, errors.New("error by ReadAll")
+		return Artists, errors.New("error by ReadAll Artists")
 	}
 	json.Unmarshal(bytes, &Artists)
 	return Artists, nil
@@ -71,11 +61,11 @@ func GetDatesData() (MyDates, error) {
 	Dates := MyDates{}
 	resp, err := http.Get(baseURL + "/dates")
 	if err != nil {
-		return Dates, errors.New("error by get")
+		return Dates, errors.New("error by get Dates")
 	}
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return Dates, errors.New("error by ReadAll")
+		return Dates, errors.New("error by ReadAll Dates")
 	}
 	json.Unmarshal(bytes, &Dates)
 	return Dates, nil
@@ -85,11 +75,11 @@ func GetLocationsData() (MyLocations, error) {
 	Locations := MyLocations{}
 	resp, err := http.Get(baseURL + "/locations")
 	if err != nil {
-		return Locations, errors.New("error by get")
+		return Locations, errors.New("error by get Locations")
 	}
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return Locations, errors.New("error by ReadAll")
+		return Locations, errors.New("error by ReadAll Locations")
 	}
 	json.Unmarshal(bytes, &Locations)
 	return Locations, nil
@@ -99,11 +89,11 @@ func GetRelationsData() (MyRelations, error) {
 	Relations := MyRelations{}
 	resp, err := http.Get(baseURL + "/relation")
 	if err != nil {
-		return Relations, errors.New("error by get")
+		return Relations, errors.New("error by get Relations")
 	}
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return Relations, errors.New("error by ReadAll")
+		return Relations, errors.New("error by ReadAll Relations")
 	}
 	json.Unmarshal(bytes, &Relations)
 	return Relations, nil

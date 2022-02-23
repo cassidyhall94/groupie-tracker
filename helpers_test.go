@@ -35,3 +35,9 @@ func TestSearch(t *testing.T) {
 		}
 	}
 }
+
+// func TestHandle500(t *testing.T) {
+// }
+
+// func TestHandle400(t *testing.T) {
+// }
