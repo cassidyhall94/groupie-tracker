@@ -65,15 +65,15 @@
     <section>
         <br><br><br>
         <div>
-            <a href="/" target="_self">Main Page</a>
+            <a href="/" target="_self" class="main-page-btn d-flex justify-content-center">Main Page</a>
         </div>
        
         <div class="media">
             <img class="mr-3" src={{.Image}} width="450" alt={{.Name}}>
-            <div class="media-body artist">
+            <div class="media-body-artist">
                 <h1>{{.Name}}</h1>
-                <p><b>Creation Date:</b> {{.CreationDate}} <b>First Album Released:</b> {{.FirstAlbum}}</p>
-                <p><b>Members:</b> {{range .Members}} {{.}}, {{end}}
+                <!-- <p><b>Creation Date:</b> {{.CreationDate}} <b>First Album Released:</b> {{.FirstAlbum}}</p>
+                <p><b>Members:</b> {{range .Members}} {{.}}, {{end}} -->
                     <div class="conteiner">
                         <!-- <div>
                             {{range $key, $value := .DatesLocations}}
@@ -89,7 +89,7 @@
                     <h5 class="card-title">Members:</h5>
                     {{range $i, $m :=.Members}}
                     <ul class="card-text">
-                        <li style="margin-bottom: 0rem;"><a href="{{index $.WikiLink $i}}">{{$m}}</a></li>
+                        <li style="margin-bottom: 0rem;"><a href="{{index $.WikiLink $i}}" class="wiki">{{$m}}</a></li>
                     </ul>
                     {{end}}
                     <h5 class="card-title">Creation Date:</h5>

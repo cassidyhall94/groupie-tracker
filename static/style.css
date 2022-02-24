@@ -3,10 +3,11 @@ body {
  
 	font-family: 'Roboto';
 	color: rgba(0, 0, 0, 0.637);
-    /* background-image: 
-    url(../static/mainpage.jpg); */
+    background-image: 
+    url(../static/mainpage.jpg);
     background-position: left;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     background-size: cover;
     height: 780px;
     margin-top: 35px;
@@ -14,12 +15,12 @@ body {
     /* background-color: rgb(173, 151, 151); */
 }
 
-a {
+.band-name {
   color:rgb(202, 184, 161);
   
 }
 
-a:hover {
+.band-name:hover {
   text-decoration: none;
   color: rgb(78, 143, 78);
 }
@@ -31,6 +32,16 @@ a:hover {
 	color:  rgb(4 48 14 / 74%);
 	text-decoration: none;
   margin: 20px;
+}
+
+.wiki {
+  color: black;
+  font-family: "Helvetica Neue", Helvetica, Arials, sans;
+}
+
+.wiki:hover {
+  text-decoration: none;
+  color: rgba(75, 61, 27, 0.8);
 }
 
 /* .card {
@@ -97,6 +108,39 @@ a:hover {
   font-size: 18px;
   text-align: center;
   margin: 15px;
+  }
+
+  .main-page-btn {
+    display: inline-block;
+    background: burlywood;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: rgba(7, 6, 5, 0.7);
+    border-radius: 0;
+    padding: 15px 70px 15px;
+    transition: all 0.7s ease-out;
+    background: linear-gradient(270deg, rgba(223,190,106,0.8), rgba(146,111,52,0.8), rgba(34,34,34,0), rgba(34,34,34,0));
+    background-position: 1% 50%;
+    background-size: 200% 200%;
+    text-decoration: none;
+    margin: 20px;
+    border: 1px solid rgba(26, 25, 24, 0.3);
+    font-family: "Helvetica Neue", Helvetica, Arials, sans;
+  }
+  
+  .main-page-btn:hover {
+    color: #fff;
+    border: 1px solid rgba(223,190,106,0);
+    color: white;
+    background-position: 99% 50%;
+  }
+
+  .media-body-artist {
+    font-family: "Helvetica Neue", Helvetica, Arials, sans;
+    color: black;
   }
 
   /* .zoom:hover {
