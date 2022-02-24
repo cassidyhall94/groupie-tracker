@@ -115,9 +115,7 @@ func main() {
 }
 
 func GetWikiLinks() error {
-
 	csvFile, err := os.Open("members-wiki.txt")
-
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -130,7 +128,6 @@ func GetWikiLinks() error {
 	reader.FieldsPerRecord = -1
 
 	csvData, err := reader.ReadAll()
-
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -378,12 +375,13 @@ func concertPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func tourPage(w http.ResponseWriter, r *http.Request) {
-	idStr := r.FormValue("tour")
-	id, err := strconv.Atoi(idStr)
+	listOfIds := r.URL.Query()["id"]
+	id, err := strconv.Atoi(listOfIds[0])
 	if err != nil {
-		http.Error(w, "Bad Request: 400", 400)
+		handle500(err, w)
 		return
 	}
+
 	artist, err := GetFullDataById(id)
 	if err != nil {
 		http.Error(w, "Bad Request: 400", 400)
