@@ -83,6 +83,7 @@ func main() {
 	http.HandleFunc("/", mainPage)
 	http.HandleFunc("/concert", concertPage)
 	http.HandleFunc("/tour", tourPage)
+	// http.HandleFunc("/about", aboutPage)
 
 	port := ":8080"
 	fmt.Println("Server listen on port localhost:8080")
