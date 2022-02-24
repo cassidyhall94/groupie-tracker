@@ -2,66 +2,67 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>Groupie tracker</title>
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Pacifico|Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="static/style.css">
+
+    <title>About Bands</title>
+
 </head>
 
 <body>
-  <nav
-  class="navbar navbar-expand-lg navbar navbar-dark fixed-top"
-  style="background: linear-gradient(#121418, #021011)"
->
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/" title="Homepage">Groupie Tracker</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
+   <nav
+      class="navbar navbar-expand-lg navbar navbar-dark fixed-top"
+      style="background: linear-gradient(#121418, #021011)"
     >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            href="/tour"
-            title="Tour"
-            >Tour</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            href="/concert"
-            title="All of the bands"
-            >Bands</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            href="/about"
-            title="About the project"
-            >About</a
-          >
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/" title="Homepage">Groupie Tracker</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="/tour"
+                title="Tour"
+                >Tour</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="/concert"
+                title="All of the bands"
+                >Bands</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="/about"
+                title="About the project"
+                >About</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
     <section>
         <br><br><br>
         <div>
@@ -89,7 +90,7 @@
                     <h5 class="card-title">Members:</h5>
                     {{range $i, $m :=.Members}}
                     <ul class="card-text">
-                        <li style="margin-bottom: 0rem;"><a href="{{index $.WikiLink $i}}" class="wiki">{{$m}}</a></li>
+                        <li style="margin-bottom: 0rem;"><a href="{{index $.WikiLink $i}}" target="_blank" class="wiki">{{$m}}</a></li>
                     </ul>
                     {{end}}
                     <h5 class="card-title">Creation Date:</h5>
@@ -101,8 +102,11 @@
 
                 </div>
             </div>
-
+            
     </section>
+    <div>
+      <a href="/tour?id={{.ID}}"  class="main-page-btn d-flex justify-content-center">Tour Page</a>
+  </div>
 
 </body>
 
