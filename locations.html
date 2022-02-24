@@ -1,8 +1,7 @@
 <!doctype html>
 <html lang="en">
 
-  <head>
-  
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -10,11 +9,12 @@
     <link href="https://fonts.googleapis.com/css?family=Pacifico|Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="static/style.css">
 
-    <title>Tour Page</title>
+    <title>Locations</title>
 
 </head>
 
 <body>
+
   <nav
   class="navbar navbar-expand-lg navbar navbar-dark fixed-top"
   style="background: linear-gradient(#121418, #021011)"
@@ -54,41 +54,14 @@
     </div>
   </div>
 </nav>
-    <section>
-       <br><br>
-              <a href="/" target="_self" class="main-page-btn d-flex justify-content-center">Main Page</a>
-          </div>
+
+    <div class="container">
+        
+        <!-- Logo -->
+        <div class="logo d-flex justify-content-center mt-3 mb-4">
+          <h1 class="locations">Locations</h1>
         </div>
-<br><br><br>
-        <div class="media">
-            <img class="mr-3" src={{.Image}} width="450" alt={{.Name}}>
-            <div class="media-body artist">
-                <h1>{{.Name}}</h1>
-                <p><b>Creation Date:</b> {{.CreationDate}} <b>First Album Released:</b> {{.FirstAlbum}}</p>
-                <p><b>Members:</b> {{range .Members}} {{.}}, {{end}}
-                    <div class="conteiner">
-                        <div>
-                            {{range $key, $value := .DatesLocations}}
-                            <div class="artist-data">
-                                <b>{{$key}}</b>
-                            </div>
-                            {{range $value}}
-                            <div class="data">{{.}}</div>
-                            <br> {{end}} {{end}}
-                        </div>
-                    </div>
-                </p>
-
-
-            </div>
-        </div>
-
-
-
-
-
-
-    </section>
+    </div>
 
 </body>
 

@@ -105,6 +105,7 @@ func main() {
 	http.HandleFunc("/", mainPage)
 	http.HandleFunc("/concert", concertPage)
 	http.HandleFunc("/tour", tourPage)
+	http.HandleFunc("/locations", locationsPage)
 
 	port := ":8080"
 	fmt.Println("Server listen on port localhost", port)
@@ -395,6 +396,59 @@ func tourPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := tmpl.Execute(w, artist); err != nil {
+		handle500(err, w)
+		return
+	}
+}
+
+func locationsPage(w http.ResponseWriter, r *http.Request) {
+	err := GetData()
+	if err != nil {
+		errors.New("error by get data")
+	}
+
+	main := r.FormValue("main")
+	search := r.FormValue("search")
+	filterByCreationFrom := r.FormValue("startCD")
+	filterByCreationTill := r.FormValue("endCD")
+	filterByFA := r.FormValue("startFA")
+	filterByFAend := r.FormValue("endFA")
+
+	if !(search == "" && len(data) != 0) {
+		data = Search(search)
+	}
+
+	if filterByCreationFrom != "" || filterByCreationTill != "" {
+		if filterByCreationFrom == "" {
+			filterByCreationFrom = "1900"
+		}
+		if filterByCreationTill == "" {
+			filterByCreationTill = "2020"
+		}
+
+	}
+
+	if filterByFA != "" || filterByFAend != "" {
+		if filterByFA == "" {
+			filterByFA = "1900-01-01"
+		}
+		if filterByFAend == "" {
+			filterByFAend = "2020-03-03"
+		}
+
+	}
+
+	tmpl, err := template.ParseFiles("locations.html")
+	if err != nil {
+		handle500(err, w)
+		return
+	}
+
+	if main == "Main Page" {
+		data = Search("a")
+	}
+
+	if err := tmpl.Execute(w, data); err != nil {
 		handle500(err, w)
 		return
 	}

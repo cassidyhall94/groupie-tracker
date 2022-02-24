@@ -34,6 +34,15 @@ body {
   margin: 20px;
 }
 
+.locations {
+  
+	font-family: 'Pacifico';
+	font-size: 50px;
+	color:  rgb(4 48 14 / 74%);
+	text-decoration: none;
+  margin: 20px;
+}
+
 .wiki {
   color: black;
   font-family: "Helvetica Neue", Helvetica, Arials, sans;
