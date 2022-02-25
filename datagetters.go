@@ -138,6 +138,7 @@ func GetData() ([]MyArtistFull, []MyArtist, MyLocations, MyDates, MyRelations, [
 func GetArtistByID(id int, Artists []MyArtist) (MyArtist, error) {
 	for _, artist := range Artists {
 		if artist.ID == id {
+			fmt.Printf("%+v\n", artist)
 			return artist, nil
 		}
 	}

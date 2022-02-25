@@ -52,75 +52,71 @@ func TestGetRelationsData(t *testing.T) {
 	}
 }
 
+type input struct {
+	ID        int
+	MyArtists []MyArtist
+}
+
 func TestGetArtistByID(t *testing.T) {
-	testCases := []struct{
-		input  struct{
-			ID int
-			MyArtists []MyArtist
-		}
-		want 	MyArtist
+	testCases := []struct {
+		in      input
+		want    MyArtist
 		wantErr bool
 	}{
 		{
-			input: {
+			in: input{
 				ID: 1,
-				MyArtists: {
-					{},
-				},
-			},		
-			want: {				
-					id:    1,
-					image: "https://groupietrackers.herokuapp.com/api/images/queen.jpeg",
-					name:  "Queen",
-					members: {
-						"Freddie Mercury",
-						"Brian May",
-						"John Daecon",
-						"Roger Meddows-Taylor",
-						"Mike Grose",
-						"Barry Mitchell",
-						"Doug Fogie",
-					},
-					creationDate: 1970,
-					firstAlbum:   "14-12-1973",
-					locations: 
-					// "https://groupietrackers.herokuapp.com/api/locations/1",
+				MyArtists: []MyArtist{
 					{
-						"north_carolina-usa",
-						"georgia-usa",
-						"los_angeles-usa",
-						"saitama-japan",
-						"osaka-japan",
-						"nagoya-japan",
-						"penrose-new_zealand",
-						"dunedin-new_zealand",
-					},
-					concertDates:
-					// "https://groupietrackers.herokuapp.com/api/dates/1",
-					{
-						0: "23-08-2019",
-						1: "22-08-2019",
-						2: "20-08-2019",
-						3: "26-01-2020",
-						4: "28-01-2020",
-						5: "30-01-2019",
-						6: "07-02-2020",
-						7: "10-02-2020",
-					},
-					relations:
-					// "https://groupietrackers.herokuapp.com/api/relation/1",
-					{
-						"dunedin-new_zealand": "10-02-2020",
-						"georgia-usa":         "22-08-2019",
-						"los_angeles_usa":     "20-08-2019",
-						"nagoya-japan":        "30-01-2019",
-						"north_carolina-usa":  "23-08-2019",
-						"osaka-japan":         "28-01-2020",
-						"penrose-new_zealand": "07-02-2020",
-						"saitama-japan":       "26-01-2020",
+						ID:    1,
+						Image: "https://groupietrackers.herokuapp.com/api/images/queen.jpeg",
+						Name:  "Queen",
+						Members: []string{
+							"Freddie Mercury",
+							"Brian May",
+							"John Daecon",
+							"Roger Meddows-Taylor",
+							"Mike Grose",
+							"Barry Mitchell",
+							"Doug Fogie",
+						},
+						CreationDate: 1970,
+						FirstAlbum:   "14-12-1973",
+						Locations:    "https://groupietrackers.herokuapp.com/api/locations/1",
+
+						ConcertDates: "https://groupietrackers.herokuapp.com/api/dates/1",
+
+						Relations: "https://groupietrackers.herokuapp.com/api/relation/1",
 					},
 				},
+			},
+			want: MyArtist{
+				ID:    1,
+				Image: "https://groupietrackers.herokuapp.com/api/images/queen.jpeg",
+				Name:  "Queen",
+				Members: []string{
+					"Freddie Mercury",
+					"Brian May",
+					"John Daecon",
+					"Roger Meddows-Taylor",
+					"Mike Grose",
+					"Barry Mitchell",
+					"Doug Fogie",
+				},
+				CreationDate: 1970,
+				FirstAlbum:   "14-12-1973",
+				Locations:    "https://groupietrackers.herokuapp.com/api/locations/1",
+
+				ConcertDates: "https://groupietrackers.herokuapp.com/api/dates/1",
+
+				Relations: "https://groupietrackers.herokuapp.com/api/relation/1",
 			},
 			wantErr: false,
 		},
 	}
+	// loop over testcases, run getartistbyID function inside loop: compare result to want. 
+}
+
+func TestGetData(t *testing.T) {
+	//check no errors, and that the returns have something in them. check length
+}
