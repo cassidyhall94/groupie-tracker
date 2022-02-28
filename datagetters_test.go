@@ -500,7 +500,26 @@ func TestGetFullDataByID(t *testing.T) {
 }
 
 func TestGetData(t *testing.T) {
-	// check no errors, and that the returns have something in them. check length
-	// ([]MyArtistFull, []MyArtist, MyLocations, MyDates, MyRelations, []MemberWikiLinks, error)
-
+	MyArtistFull, MyArtist, MyLocations, MyDates, MyRelations, MemberWikiLinks, err := GetData()
+	if err != nil {
+		t.Fatalf("get data function err:%+v", err)
+	}
+	if len(MyArtistFull) < 1 {
+		t.Fatalf("GetData function: MyArtistFull failed due to length < 1")
+	}
+	if len(MyArtist) < 1 {
+		t.Fatalf("GetData function: MyArtist failed due to length < 1")
+	}
+	if len(MyLocations.Index) < 1 {
+		t.Fatalf("GetData function: MyLocations failed due to length < 1")
+	}
+	if len(MyDates.Index) < 1 {
+		t.Fatalf("GetData function: MyDates failed due to length < 1")
+	}
+	if len(MyRelations.Index) < 1 {
+		t.Fatalf("GetData function: MyRelations failed due to length < 1")
+	}
+	if len(MemberWikiLinks) < 1 {
+		t.Fatalf("GetData function: MemberWikiLinks failed due to length < 1")
+	}
 }
