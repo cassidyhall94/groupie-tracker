@@ -81,7 +81,7 @@ func concertPage(w http.ResponseWriter, r *http.Request) {
 		handle500(w)
 		return
 	}
-	artist, err := GetFullDataById(id, ArtistsFull)
+	artist, err := GetFullDataByID(id, ArtistsFull)
 	if err != nil {
 		fmt.Printf("GetFullDataByID(%d) error: %+v\n", id, err)
 		handle400(w)
@@ -120,7 +120,7 @@ func tourPage(w http.ResponseWriter, r *http.Request) {
 		handle500(w)
 		return
 	}
-	artist, err := GetFullDataById(id, ArtistsFull)
+	artist, err := GetFullDataByID(id, ArtistsFull)
 	if err != nil {
 		fmt.Printf("GetFullDataByID(%d) error: %+v", id, err)
 		handle400(w)

@@ -138,7 +138,6 @@ func GetData() ([]MyArtistFull, []MyArtist, MyLocations, MyDates, MyRelations, [
 func GetArtistByID(id int, Artists []MyArtist) (MyArtist, error) {
 	for _, artist := range Artists {
 		if artist.ID == id {
-			fmt.Printf("%+v\n", artist)
 			return artist, nil
 		}
 	}
@@ -149,6 +148,7 @@ func GetDateByID(id int, Dates MyDates) (MyDate, error) {
 	for _, date := range Dates.Index {
 		if date.ID == id {
 			return date, nil
+
 		}
 	}
 	return MyDate{}, errors.New("date not found")
@@ -172,9 +172,10 @@ func GetRelationByID(id int, Relations MyRelations) (MyRelation, error) {
 	return MyRelation{}, errors.New("relation not found")
 }
 
-func GetFullDataById(id int, ArtistsFull []MyArtistFull) (MyArtistFull, error) {
+func GetFullDataByID(id int, ArtistsFull []MyArtistFull) (MyArtistFull, error) {
 	for _, artist := range ArtistsFull {
 		if artist.ID == id {
+			// fmt.Printf("%+v\n", artist)
 			return artist, nil
 		}
 	}

@@ -76,7 +76,7 @@ func Search(search string) []MyArtistFull {
 					}
 				}
 				if len(search) == length_name {
-					band, err := GetFullDataById(i+1, ArtistsFull)
+					band, err := GetFullDataByID(i+1, ArtistsFull)
 					if err != nil {
 						fmt.Println(err)
 					}
