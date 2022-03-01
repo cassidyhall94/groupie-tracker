@@ -161,7 +161,7 @@ body {
   grid-row-gap: 20px;
   text-align: center;
   color: rgb(0, 0, 0);
-  font-size: 13px;
+  font-size: 14px;
  
 }
 
@@ -173,10 +173,15 @@ h3 {
   font-size: 15px;
 }
 
+li>a {
+  color: rgb(4 48 14 / 74%);
+  font-weight: 600;
+}
+
 li {
   list-style-type: none;
 }
 
-a:hover {
+li>a:hover {
   text-decoration: none;
 }
