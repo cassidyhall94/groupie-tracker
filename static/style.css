@@ -11,7 +11,8 @@ body {
     background-size: cover;
     height: 780px;
     margin-top: 35px;
-    margin-left: 75px;
+    text-align: center;
+    /* margin-left: 75px; */
   
 }
 
@@ -152,3 +153,30 @@ body {
   font-family: 'Pacifico';
   font-size: 22px;
  }
+
+ .countries {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-column-gap: 15px;
+  grid-row-gap: 20px;
+  text-align: center;
+  color: rgb(0, 0, 0);
+  font-size: 13px;
+ 
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 15px;
+}
+
+li {
+  list-style-type: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
