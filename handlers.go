@@ -46,7 +46,7 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 
 	tmpl, err := template.ParseFiles("index.html")
 	if err != nil {
-		// fmt.Printf("index.html, error: %+v/n", err)
+		fmt.Printf("index.html, error: %+v/n", err)
 		handle500(w)
 		return
 	}
@@ -57,7 +57,7 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := tmpl.Execute(w, data); err != nil {
-		// fmt.Printf("Execute(w, data) error: %+v/n", err)
+		fmt.Printf("Execute(w, data) error: %+v/n", err)
 		handle500(w)
 		return
 	}

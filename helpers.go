@@ -10,7 +10,6 @@ import (
 	"strings"
 )
 
-// this needs a better name, figure out what it's doing
 func ConverterStructToString() ([]string, []MyArtistFull, error) {
 	var data []string
 	ArtistsFull, Artists, Locations, Dates, _, _, err := GetData()
@@ -100,7 +99,6 @@ func handle500(w http.ResponseWriter) {
 		log.Fatalf("Error happened in JSON marshal. Err: %s", err)
 	}
 	w.Write(jsonResp)
-	// return
 }
 
 func handle400(w http.ResponseWriter) {
@@ -113,5 +111,4 @@ func handle400(w http.ResponseWriter) {
 		log.Fatalf("Error happened in JSON marshal. Err: %s", err)
 	}
 	w.Write(jsonResp)
-	// return
 }

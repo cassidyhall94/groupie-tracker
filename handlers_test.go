@@ -72,3 +72,41 @@ func TestConcertPageHandler(t *testing.T) {
 		}
 	}
 }
+
+func TestAboutPageHandler(t *testing.T) {
+	req, err := http.NewRequest("GET", "/about", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(aboutPage)
+
+	handler.ServeHTTP(rr, req)
+
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+}
+
+// func TestLocationsPageHandler(t *testing.T) {
+// 	idsToTest := map[int]int{
+// 		0: http.StatusBadRequest,
+// 		1: http.StatusOK,
+// 	}
+// 	for id, wantStatus := range idsToTest {
+// 		req, err := http.NewRequest("GET", fmt.Sprintf("/tour?id=%d", id), nil)
+// 		if err != nil {
+// 			t.Fatal(err)
+// 		}
+// 		rr := httptest.NewRecorder()
+// 		handler := http.HandlerFunc(tourPage)
+
+// 		handler.ServeHTTP(rr, req)
+
+// 		if status := rr.Code; status != wantStatus {
+// 			t.Errorf("handler returned wrong status code: got %v want %v",
+// 				status, http.StatusOK)
+// 		}
+// 	}
+// }

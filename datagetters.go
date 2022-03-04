@@ -174,7 +174,6 @@ func GetRelationByID(id int, Relations MyRelations) (MyRelation, error) {
 func GetFullDataByID(id int, ArtistsFull []MyArtistFull) (MyArtistFull, error) {
 	for _, artist := range ArtistsFull {
 		if artist.ID == id {
-			// fmt.Printf("%+v\n", artist)
 			return artist, nil
 		}
 	}
