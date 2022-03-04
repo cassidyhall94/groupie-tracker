@@ -40,6 +40,9 @@ type MyArtistFull struct {
 	ConcertDates   []string            `json:"concertDates"`
 	DatesLocations map[string][]string `json:"datesLocations"`
 	WikiLink       []string
+	TourCity       []string
+	TourCountry    []string
+	tourDates      [][]string
 	// Relations      string              `json:"relations"`
 }
 
@@ -71,6 +74,30 @@ type MyDate struct {
 	Dates []string `json:"dates"`
 }
 
+type MemberWikiLinks struct {
+	Name string `json:"name"`
+	Link string `json:"link"`
+}
+
+type TourData struct {
+	ArtistID   int    //artist ID
+	RelationID string //key for relations
+	City       string
+	Country    string
+	TourDates  []string
+}
+
+type TourDataArray struct {
+	ArtistID  int //artist ID
+	City      []string
+	Country   []string
+	TourDates [][]string
+}
+
+type MyTour struct {
+	Index []TourData
+}
+
 type MyDates struct {
 	Index []MyDate `json:"index"`
 }
@@ -83,11 +110,6 @@ type MyRelations struct {
 	Index []MyRelation `json:"index"`
 }
 
-type MemberWikiLinks struct {
-	Name string `json:"name"`
-	Link string `json:"link"`
-}
-
 var (
 	ArtistsFull []MyArtistFull
 	Artists     []MyArtist
@@ -95,6 +117,7 @@ var (
 	Locations   MyLocations
 	Relations   MyRelations
 	MemLinks    []MemberWikiLinks
+	TourThings  []TourData
 )
 
 func main() {
@@ -112,6 +135,49 @@ func main() {
 	if err != nil {
 		log.Fatal("Listen and Serve", err)
 	}
+}
+
+func GetTourData() error {
+	Relations, err1 := GetRelationsData()
+
+	if err1 != nil {
+		log.Fatal(err1)
+	}
+
+	f, err := os.Open("tour_data.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer f.Close()
+
+	csvReader := csv.NewReader(f)
+	csvData, err := csvReader.ReadAll()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var oneRecord TourData
+	var allRecords []TourData
+
+	for _, each := range csvData {
+		oneRecord.ArtistID, _ = strconv.Atoi(each[0])
+		oneRecord.RelationID = each[1]
+		oneRecord.City = each[2]
+		oneRecord.Country = each[3]
+		oneRecord.TourDates = Relations.Index[oneRecord.ArtistID-1].DatesLocations[each[1]]
+		allRecords = append(allRecords, oneRecord)
+	}
+
+	jsondata, err := json.Marshal(allRecords) // convert to JSON
+	json.Unmarshal(jsondata, &TourThings)
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	return nil
 }
 
 func GetWikiLinks() error {
@@ -223,7 +289,8 @@ func GetData() error {
 	Dates, err3 := GetDatesData()
 	Relations, err4 := GetRelationsData()
 	err5 := GetWikiLinks()
-	if err1 != nil || err2 != nil || err3 != nil || err4 != nil || err5 != nil {
+	err6 := GetTourData()
+	if err1 != nil || err2 != nil || err3 != nil || err4 != nil || err5 != nil || err6 != nil {
 		return errors.New("error by get data artists, locations, dates")
 	}
 	for i := range Artists {
@@ -237,6 +304,28 @@ func GetData() error {
 				}
 			}
 		}
+
+		var addCity []string
+		for m := 0; m < len(TourThings); m++ {
+			if TourThings[m].ArtistID == Artists[i].ID {
+				addCity = append(addCity, TourThings[m].City)
+			}
+		}
+
+		var addCountry []string
+		for m := 0; m < len(TourThings); m++ {
+			if TourThings[m].ArtistID == Artists[i].ID {
+				addCountry = append(addCountry, TourThings[m].Country)
+			}
+		}
+
+		var addDates [][]string
+		for m := 0; m < len(TourThings); m++ {
+			if TourThings[m].ArtistID == Artists[i].ID {
+				addDates = append(addDates, TourThings[m].TourDates)
+			}
+		}
+
 		tmpl.ID = i + 1
 		tmpl.Image = Artists[i].Image
 		tmpl.Name = Artists[i].Name
@@ -247,8 +336,12 @@ func GetData() error {
 		tmpl.ConcertDates = Dates.Index[i].Dates
 		tmpl.DatesLocations = Relations.Index[i].DatesLocations
 		tmpl.WikiLink = addMemLinks
+		tmpl.TourCity = addCity
+		tmpl.TourCountry = addCountry
+		tmpl.tourDates = addDates
 		ArtistsFull = append(ArtistsFull, tmpl)
 	}
+
 	return nil
 }
 
@@ -295,6 +388,15 @@ func GetFullDataById(id int) (MyArtistFull, error) {
 		}
 	}
 	return MyArtistFull{}, errors.New("not found")
+}
+
+func GetTourByID(id int) (TourData, error) {
+	for _, tour := range TourThings {
+		if tour.ArtistID == id {
+			return tour, nil
+		}
+	}
+	return TourData{}, errors.New("not found")
 }
 
 var data []MyArtistFull
@@ -415,7 +517,8 @@ func ConverterStructToString(ArtistsFull []MyArtistFull) ([]string, error) {
 		artist, err1 := GetArtistByID(i)
 		locations, err2 := GetLocationByID(i)
 		date, err3 := GetDateByID(i)
-		if err1 != nil || err2 != nil || err3 != nil {
+		tour, err4 := GetTourByID(i)
+		if err1 != nil || err2 != nil || err3 != nil || err4 != nil {
 			return data, errors.New("error by converter")
 		}
 
@@ -431,6 +534,19 @@ func ConverterStructToString(ArtistsFull []MyArtistFull) ([]string, error) {
 		for _, d := range date.Dates {
 			str += d + " "
 		}
+
+		for _, city := range tour.City {
+			str += string(city) + " "
+		}
+
+		for _, country := range tour.Country {
+			str += string(country) + " "
+		}
+
+		for _, tourDates := range tour.TourDates {
+			str += string(tourDates) + " "
+		}
+
 		data = append(data, str)
 	}
 	return data, nil
