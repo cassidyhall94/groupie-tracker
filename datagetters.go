@@ -148,7 +148,6 @@ func GetDateByID(id int, Dates MyDates) (MyDate, error) {
 	for _, date := range Dates.Index {
 		if date.ID == id {
 			return date, nil
-
 		}
 	}
 	return MyDate{}, errors.New("date not found")
