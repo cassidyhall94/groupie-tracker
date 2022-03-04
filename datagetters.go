@@ -105,7 +105,6 @@ func GetData() ([]MyArtistFull, []MyArtist, MyLocations, MyDates, MyRelations, [
 	Dates, err3 := GetDatesData()
 	Relations, err4 := GetRelationsData()
 	MemLinks, err5 := GetWikiLinks()
-	// TODO: Handler these where they happen
 	if err1 != nil || err2 != nil || err3 != nil || err4 != nil || err5 != nil {
 		return []MyArtistFull{}, []MyArtist{}, MyLocations{}, MyDates{}, MyRelations{}, []MemberWikiLinks{}, errors.New("error by get data artists, locations, dates, relations, or memlinks")
 	}
