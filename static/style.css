@@ -186,3 +186,18 @@ li {
 li>a:hover {
   text-decoration: none;
 }
+
+.about {
+  font-size: 20px;
+  margin-bottom: 20px;
+
+}
+
+.project-authors {
+  margin: 10px;
+}
+
+.authors {
+  font-size: 17px;
+  margin: 10px;
+}

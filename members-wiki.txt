@@ -175,7 +175,7 @@ Charlie Watts,https://en.wikipedia.org/wiki/Charlie_Watts
 Ron Wood,https://en.wikipedia.org/wiki/Ronnie_Wood
 Matthew Bellamy,https://en.wikipedia.org/wiki/Matt_Bellamy
 Christopher Wolstenholme,https://en.wikipedia.org/wiki/Chris_Wolstenholme
-Dominic Howard,https://en.wikipedia.org/wiki/Dominic_Howard
+Dominic Howard ,https://en.wikipedia.org/wiki/Dominic_Howard
 Dave Grohl,https://en.wikipedia.org/wiki/Dave_Grohl
 Nate Mendel,https://en.wikipedia.org/wiki/Nate_Mendel
 Taylor Hawkins,https://en.wikipedia.org/wiki/Taylor_Hawkins
