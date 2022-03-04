@@ -44,22 +44,61 @@
     <div class="media">
       <img class="mr-3" src={{.Image}} width="450" alt={{.Name}}>
       <div class="media-body artist">
-        {{range .TourCountry}} {{.}} {{end}}
+        <!-- {{range .TourCountry}} {{.}} {{end}} -->
 
-        <table>
+        <!-- <table>
           <tr>
             <th>Country</th>
             <th>City</th>
             <th>Dates</th>
           </tr>
-          {{ range . }}
+          {{ range .TourCountry }}
           <tr>
-            <td>{{ .TourCountry }}</td>
-            <td>{{ .TourCity }}</td>
-            <td>{{ .TourDates }}</td>
+            <td>{{ . }}</td>
           </tr>
           {{ end }}
+          {{ range .TourCity }}
+          <tr>
+            <td>{{ . }}</td>
+          </tr>
+          {{ end }}
+          {{ range .TourDates }}
+          <tr>
+            <td>{{ . }}</td>
+          </tr>
+          {{ end }}
+        </table> -->
 
+
+        <table>
+          <tr>
+            <th><b>Country</b></th>
+            <th><b>City</b></th>
+            <th><b>Dates</b></th>
+          </tr>
+          <tr>
+            <td>
+              <ul>
+                {{ range .TourCountry }}
+                <li>{{ . }}</li>
+                {{ end }}
+              </ul>
+            </td>
+
+            <td>
+              <ul>
+                {{ range .TourCity }}
+                <li>{{ . }}</li>
+                {{ end }}
+              </ul>
+            </td>
+            <td>
+              <ul>
+                {{ range .TourDates }}
+                <li>{{ . }}</li>
+                {{ end }}
+              </ul>
+            </td>
         </table>
 
       </div>
