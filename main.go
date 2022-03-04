@@ -42,7 +42,7 @@ type MyArtistFull struct {
 	WikiLink       []string
 	TourCity       []string
 	TourCountry    []string
-	tourDates      [][]string
+	TourDates      [][]string
 	// Relations      string              `json:"relations"`
 }
 
@@ -276,7 +276,6 @@ func GetRelationsData() (MyRelations, error) {
 		return Relations, errors.New("error by ReadAll")
 	}
 	json.Unmarshal(bytes, &Relations)
-	fmt.Println(Relations.Index[0].DatesLocations)
 	return Relations, nil
 }
 
@@ -338,7 +337,7 @@ func GetData() error {
 		tmpl.WikiLink = addMemLinks
 		tmpl.TourCity = addCity
 		tmpl.TourCountry = addCountry
-		tmpl.tourDates = addDates
+		tmpl.TourDates = addDates
 		ArtistsFull = append(ArtistsFull, tmpl)
 	}
 
