@@ -46,7 +46,7 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 
 	}
 
-	tmpl, err := template.ParseFiles("index.html")
+	tmpl, err := template.ParseFiles("web/index.html")
 	if err != nil {
 		fmt.Printf("index.html, error: %+v/n", err)
 		handle500(w)
@@ -82,7 +82,7 @@ func concertPage(w http.ResponseWriter, r *http.Request) {
 		handle400(w)
 	}
 
-	tmpl, err := template.ParseFiles("concert.html")
+	tmpl, err := template.ParseFiles("web/concert.html")
 	if err != nil {
 		fmt.Printf("concert error: %+v", err)
 		handle500(w)
@@ -115,7 +115,7 @@ func tourPage(w http.ResponseWriter, r *http.Request) {
 		handle400(w)
 	}
 
-	tmpl, err := template.ParseFiles("tour.html")
+	tmpl, err := template.ParseFiles("web/tour.html")
 	if err != nil {
 		fmt.Printf("tour.html, error: %+v", err)
 		handle500(w)
@@ -130,7 +130,7 @@ func tourPage(w http.ResponseWriter, r *http.Request) {
 func locationsPage(w http.ResponseWriter, r *http.Request) {
 	data := []MyArtistFull{}
 
-	tmpl, err := template.ParseFiles("locations.html")
+	tmpl, err := template.ParseFiles("web/locations.html")
 	if err != nil {
 		fmt.Printf("locations.html, error: %+v/n", err)
 		handle500(w)
@@ -145,7 +145,7 @@ func locationsPage(w http.ResponseWriter, r *http.Request) {
 func aboutPage(w http.ResponseWriter, r *http.Request) {
 	data := []MyArtistFull{}
 
-	tmpl, err := template.ParseFiles("about.html")
+	tmpl, err := template.ParseFiles("web/about.html")
 	if err != nil {
 		fmt.Printf("about.html, error: %+v/n", err)
 		handle500(w)

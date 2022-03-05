@@ -12,7 +12,7 @@ import (
 
 func GetWikiLinks() ([]MemberWikiLinks, error) {
 	MemLinks := []MemberWikiLinks{}
-	csvFile, err := os.Open("members-wiki.txt")
+	csvFile, err := os.Open("web/static/members-wiki.txt")
 	if err != nil {
 		fmt.Printf("cvsFile error: %+v", err)
 	}
@@ -45,13 +45,13 @@ func GetArtistsData() ([]MyArtist, error) {
 	Artists := []MyArtist{}
 	resp, err := http.Get(baseURL + "/artists")
 	if err != nil {
-		return Artists, errors.New("error by get Artists")
+		return Artists, fmt.Errorf("error by get Artists: %w", err)
 	}
 	defer resp.Body.Close()
 
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return Artists, errors.New("error by ReadAll Artists")
+		return Artists, fmt.Errorf("error by ReadAll Artists: %w", err)
 	}
 	json.Unmarshal(bytes, &Artists)
 	return Artists, nil
@@ -61,11 +61,11 @@ func GetDatesData() (MyDates, error) {
 	Dates := MyDates{}
 	resp, err := http.Get(baseURL + "/dates")
 	if err != nil {
-		return Dates, errors.New("error by get Dates")
+		return Dates, fmt.Errorf("error by get Dates: %w", err)
 	}
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return Dates, errors.New("error by ReadAll Dates")
+		return Dates, fmt.Errorf("error by ReadAll Dates: %w", err)
 	}
 	json.Unmarshal(bytes, &Dates)
 	return Dates, nil
@@ -75,11 +75,11 @@ func GetLocationsData() (MyLocations, error) {
 	Locations := MyLocations{}
 	resp, err := http.Get(baseURL + "/locations")
 	if err != nil {
-		return Locations, errors.New("error by get Locations")
+		return Locations, fmt.Errorf("error by get Locations: %w", err)
 	}
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return Locations, errors.New("error by ReadAll Locations")
+		return Locations, fmt.Errorf("error by ReadAll Locations: %w", err)
 	}
 	json.Unmarshal(bytes, &Locations)
 	return Locations, nil
@@ -89,11 +89,11 @@ func GetRelationsData() (MyRelations, error) {
 	Relations := MyRelations{}
 	resp, err := http.Get(baseURL + "/relation")
 	if err != nil {
-		return Relations, errors.New("error by get Relations")
+		return Relations, fmt.Errorf("error by get Relations: %w", err)
 	}
 	bytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return Relations, errors.New("error by ReadAll Relations")
+		return Relations, fmt.Errorf("error by ReadAll Relations: %w", err)
 	}
 	json.Unmarshal(bytes, &Relations)
 	return Relations, nil
@@ -106,7 +106,7 @@ func GetData() ([]MyArtistFull, []MyArtist, MyLocations, MyDates, MyRelations, [
 	Relations, err4 := GetRelationsData()
 	MemLinks, err5 := GetWikiLinks()
 	if err1 != nil || err2 != nil || err3 != nil || err4 != nil || err5 != nil {
-		return []MyArtistFull{}, []MyArtist{}, MyLocations{}, MyDates{}, MyRelations{}, []MemberWikiLinks{}, errors.New("error by get data artists, locations, dates, relations, or memlinks")
+		return []MyArtistFull{}, []MyArtist{}, MyLocations{}, MyDates{}, MyRelations{}, []MemberWikiLinks{}, fmt.Errorf("error from get data artists: %v, locations: %v, dates: %v, relations: %v, or memlinks: %v", err1, err2, err3, err4, err5)
 	}
 	ret := []MyArtistFull{}
 	for i := range Artists {
