@@ -2,32 +2,53 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>Groupie tracker</title>
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Pacifico|Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="static/style.css">
+
+    <title>About Bands</title>
+
 </head>
 
 <body>
-
+    <nav class="navbar navbar-expand-lg navbar navbar-dark fixed-top"
+        style="background: linear-gradient(#121418, #021011)">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/" title="Homepage">Groupie Tracker</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/locations" title="locations">Locations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about" title="About the project">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <section>
+        <br><br><br>
         <div>
-            <a href="/" target="_self">Main Page</a>
+            <a href="/" target="_self" class="main-page-btn d-flex justify-content-center">Main Page</a>
         </div>
 
         <div class="media">
             <img class="mr-3" src={{.Image}} width="450" alt={{.Name}}>
-            <div class="media-body artist">
+            <div class="media-body-artist">
                 <h1>{{.Name}}</h1>
-                <p><b>Creation Date:</b> {{.CreationDate}} <b>First Album Released:</b> {{.FirstAlbum}}</p>
-                <p><b>Members:</b> {{range .Members}} {{.}}, {{end}}
-                    <!-- <div class="conteiner">
-                        <div>
+                <!-- <p><b>Creation Date:</b> {{.CreationDate}} <b>First Album Released:</b> {{.FirstAlbum}}</p>
+                <p><b>Members:</b> {{range .Members}} {{.}}, {{end}} -->
+                <div class="conteiner">
+                    <!-- <div>
                             {{range $key, $value := .DatesLocations}}
                             <div class="artist-data">
                                 <b>{{$key}}</b>
@@ -36,12 +57,13 @@
                             <div class="data">{{.}}</div>
                             <br> {{end}} {{end}}
                         </div>
-                    </div> -->
-                <div class="card-body">
+                    </div>
+                <div class="card-body"> -->
                     <h5 class="card-title">Members:</h5>
                     {{range $i, $m :=.Members}}
                     <ul class="card-text">
-                        <li style="margin-bottom: 0rem;"><a href="{{index $.WikiLink $i}}">{{$m}}</a></li>
+                        <li style="margin-bottom: 0rem;"><a href="{{index $.WikiLink $i}}" target="_blank"
+                                class="wiki">{{$m}}</a></li>
                     </ul>
                     {{end}}
                     <h5 class="card-title">Creation Date:</h5>
@@ -49,9 +71,18 @@
                     <h5 class="card-title">First Album Released:</h5>
                     <p class="card-text">{{.FirstAlbum}}</p>
                     </p>
+
+
                 </div>
             </div>
+
     </section>
+    <div>
+        <a href="/tour?id={{.ID}}" name="tour" class="main-page-btn d-flex justify-content-center">Tour Page</a>
+
+        <!-- <a href="/tour?id={{.ID}}" name="tour">"Tour"</a>  -->
+    </div>
+
 </body>
 
 </html>

@@ -66,12 +66,6 @@
         {{range .}}
         <div class="col">
             <div class="card text-black bg-light h-50" style="width: 200px;" id="card">
-                
-                <img id="img" src={{.Image}} class="card-img-top" alt={{.Name}}>
-                <div class="card-header" style="font-size: 20px;">{{.Name}}<form class="form-inline" action="/concert" method="POST">
-                    <input type="hidden" name="concert" value={{.ID}}>
-                    <input type="submit" class="btn btn-dark" value="More Info">
-                </form>
                 <form class="form-inline" action="/tour" method="POST">
                     <input type="hidden" name="tour" value={{.ID}}>
                     <input type="submit" class="btn btn-dark" value="Tour">
@@ -82,7 +76,6 @@
         
         {{end}}
     </div>
-
     </section> -->
 
   <div id="cards" class="row d-flex justify-content-center">
@@ -100,8 +93,6 @@
         <div class="flip-card-back">
           <h1>
             <a href="/concert?id={{.ID}}" name="concert" class="band-name"> {{.Name}}</a>
-          </h1>
-          <h1>
             <a href="/tour?id={{.ID}}" name="tour" class="band-name">Tour</a>
           </h1>
           <p><b>Creation Date:</b> {{.CreationDate}}</p>

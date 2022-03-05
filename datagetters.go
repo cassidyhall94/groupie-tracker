@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func GetTourData() ([]TourData, error) {
@@ -188,6 +189,14 @@ func GetData() ([]MyArtistFull, []MyArtist, MyLocations, MyDates, MyRelations, [
 			}
 		}
 
+		var addDatesString []string
+		for _, date := range addDates {
+			s := strings.Join(date, "\n")
+			addDatesString = append(addDatesString, s)
+		}
+
+		fmt.Println(addDatesString[1])
+
 		tmpl.ID = i + 1
 		tmpl.Image = Artists[i].Image
 		tmpl.Name = Artists[i].Name
@@ -201,6 +210,7 @@ func GetData() ([]MyArtistFull, []MyArtist, MyLocations, MyDates, MyRelations, [
 		tmpl.TourCity = addCity
 		tmpl.TourCountry = addCountry
 		tmpl.TourDates = addDates
+		tmpl.TourDateString = addDatesString
 		ret = append(ret, tmpl)
 	}
 	return ret, Artists, Locations, Dates, Relations, MemLinks, TourThings, nil
