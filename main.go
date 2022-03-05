@@ -77,7 +77,7 @@ type MemberWikiLinks struct {
 
 func main() {
 	// static folder
-	fs := http.FileServer(http.Dir("static"))
+	fs := http.FileServer(http.Dir("web/static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	http.HandleFunc("/", mainPage)
@@ -87,7 +87,7 @@ func main() {
 	http.HandleFunc("/locations", locationsPage)
 
 	port := ":8080"
-	fmt.Println("Server listen on port localhost:8080")
+	fmt.Println("Server listening, for local development it's on localhost:8080")
 	err := http.ListenAndServe(port, nil)
 	if err != nil {
 		log.Fatal("Listen and Serve", err)
