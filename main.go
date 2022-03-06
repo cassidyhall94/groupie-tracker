@@ -13,6 +13,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 )
 
 const baseURL = "https://groupietrackers.herokuapp.com/api"
@@ -87,7 +88,12 @@ func main() {
 	http.HandleFunc("/locations", locationsPage)
 
 	port := ":8080"
-	fmt.Println("Server listening, for local development it's on localhost:8080")
+	// This allows the port to be changed if needed
+	// To change the port use (export PORT=12345) in the command line
+	if p, exists := os.LookupEnv("PORT"); exists {
+		port = fmt.Sprintf(":%s", p)
+	}
+	fmt.Printf("Server listening on localhost%s\n", port)
 	err := http.ListenAndServe(port, nil)
 	if err != nil {
 		log.Fatal("Listen and Serve", err)
