@@ -191,11 +191,9 @@ func GetData() ([]MyArtistFull, []MyArtist, MyLocations, MyDates, MyRelations, [
 
 		var addDatesString []string
 		for _, date := range addDates {
-			s := strings.Join(date, "\n")
+			s := strings.Join(date, " | ")
 			addDatesString = append(addDatesString, s)
 		}
-
-		fmt.Println(addDatesString[1])
 
 		tmpl.ID = i + 1
 		tmpl.Image = Artists[i].Image
