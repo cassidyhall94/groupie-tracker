@@ -97,7 +97,7 @@
                         <a href="/concert?id={{.ID}}" name="concert" class="band-name"> {{.Name}}</a>
                     </h1>
                     <p><b>Creation Date:</b> {{.CreationDate}}</p>
-                    <p><b>Members:</b> {{range .Members}} {{.}}, {{end}}
+                    <p><b>Members:</b> {{range .Members}} {{.}}  | {{end}}
                 </div>
             </div>
         </div>
