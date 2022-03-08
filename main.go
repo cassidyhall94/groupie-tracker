@@ -13,6 +13,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 )
 
 const baseURL = "https://groupietrackers.herokuapp.com/api"
@@ -64,8 +65,8 @@ type MyDate struct {
 }
 
 type TourData struct {
-	ArtistID   int    //artist ID
-	RelationID string //key for relations
+	ArtistID   int    // artist ID
+	RelationID string // key for relations
 	City       string
 	Country    string
 	TourDates  []string
@@ -94,7 +95,7 @@ type MemberWikiLinks struct {
 
 func main() {
 	// static folder
-	fs := http.FileServer(http.Dir("static"))
+	fs := http.FileServer(http.Dir("web/static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	http.HandleFunc("/", mainPage)
@@ -104,7 +105,12 @@ func main() {
 	http.HandleFunc("/locations", locationsPage)
 
 	port := ":8080"
-	fmt.Println("Server listen on port localhost:8080")
+	// This allows the port to be changed if needed
+	// To change the port use (export PORT=12345) in the command line
+	if p, exists := os.LookupEnv("PORT"); exists {
+		port = fmt.Sprintf(":%s", p)
+	}
+	fmt.Printf("Server listening on localhost%s\n", port)
 	err := http.ListenAndServe(port, nil)
 	if err != nil {
 		log.Fatal("Listen and Serve", err)

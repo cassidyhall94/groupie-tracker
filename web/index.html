@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Pacifico|Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/style.css">
+
+    <title>Groupie Tracker</title>
+
+</head>
+
+<body>
+
+    <nav
+      class="navbar navbar-expand-lg navbar navbar-dark fixed-top"
+      style="background: linear-gradient(#121418, #021011)"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/" title="Homepage">Groupie Tracker</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="/locations"
+                title="locations"
+                >Locations</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="/about"
+                title="About the project"
+                >About</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+        
+        <!-- Logo -->
+        <div class="logo d-flex justify-content-center mt-3 mb-4">
+            <a href="/" target="_self">Groupie Tracker</a>
+        </div>
+    </div>
+    
+
+    
+    <form method="GET" action="/concert" class="search-bands">
+        <label for="selection">Artists:</label>
+        <select name="id">
+          {{range.}} 
+          <option value="{{.ID}}"><a href="/concert?id={{.ID}}" name="concert" id="band">{{.Name}}</a></option>
+           {{end}}       
+         
+        </select>
+        <input type="submit" value="Select">
+  </form>
+
+
+    </section>
+    
+    <div id="cards" class="row d-flex justify-content-center">
+        {{range .}}
+        <div class="flip-card">
+       
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="col">
+                        <div class="card text-black bg-light h-50" style="width: 190px; margin: 5px 5px 5px 45px;"
+                            id="card">
+                            <img id="img" src={{.Image}} class="card-img-top" alt={{.Name}}>
+                        </div>
+                    </div>
+                </div>
+                <div class="flip-card-back">
+                    <h1>
+                        <a href="/concert?id={{.ID}}" name="concert" class="band-name"> {{.Name}}</a>
+                    </h1>
+                    <p><b>Creation Date:</b> {{.CreationDate}}</p>
+                    <p><b>Members:</b> {{range .Members}} {{.}}, {{end}}
+                </div>
+            </div>
+        </div>
+        
+        {{end}}
+    </div>
+</body>
+
+</html>

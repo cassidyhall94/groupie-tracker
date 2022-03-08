@@ -5,6 +5,16 @@ import (
 	"testing"
 )
 
+func TestGetTourData(t *testing.T) {
+	TourThings, err := GetTourData()
+	if err != nil {
+		t.Fatalf("memlinks err:%+v", err)
+	}
+	if len(TourThings) < 1 {
+		t.Fatalf("TourThings failed due to length < 1")
+	}
+}
+
 func TestGetWikiLinks(t *testing.T) {
 	memlinks, err := GetWikiLinks()
 	if err != nil {
@@ -500,7 +510,7 @@ func TestGetFullDataByID(t *testing.T) {
 }
 
 func TestGetData(t *testing.T) {
-	MyArtistFull, MyArtist, MyLocations, MyDates, MyRelations, MemberWikiLinks, TourData, err := GetData()
+	MyArtistFull, MyArtist, MyLocations, MyDates, MyRelations, MemberWikiLinks, MyTour, err := GetData()
 	if err != nil {
 		t.Fatalf("get data function err:%+v", err)
 	}
@@ -522,7 +532,7 @@ func TestGetData(t *testing.T) {
 	if len(MemberWikiLinks) < 1 {
 		t.Fatalf("GetData function: MemberWikiLinks failed due to length < 1")
 	}
-	if len(TourData) < 1 {
-		t.Fatalf("GetData function: MemberWikiLinks failed due to length < 1")
+	if len(MyTour) < 1 {
+		t.Fatalf("GetData function: TourData failed due to length < 1")
 	}
 }
