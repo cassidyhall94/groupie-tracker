@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -16,14 +15,13 @@ import (
 func GetTourData() ([]TourData, error) {
 	TourThings := []TourData{}
 	Relations, err1 := GetRelationsData()
-
 	if err1 != nil {
-		log.Fatal(err1)
+		fmt.Printf("Relations tour_data error: %+v", err1)
 	}
 
 	f, err := os.Open("web/tour_data.txt")
 	if err != nil {
-		log.Fatal(err)
+		fmt.Printf("tour_data file error: %+v", err)
 	}
 
 	defer f.Close()
@@ -31,7 +29,7 @@ func GetTourData() ([]TourData, error) {
 	csvReader := csv.NewReader(f)
 	csvData, err := csvReader.ReadAll()
 	if err != nil {
-		log.Fatal(err)
+		fmt.Printf("cvsreader tour error: %+v", err)
 	}
 
 	var oneRecord TourData
@@ -50,7 +48,7 @@ func GetTourData() ([]TourData, error) {
 	json.Unmarshal(jsondata, &TourThings)
 
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("jsondata tour error: %+v", err)
 		os.Exit(1)
 	}
 
@@ -82,7 +80,7 @@ func GetWikiLinks() ([]MemberWikiLinks, error) {
 	jsondata, err := json.Marshal(allRecords) // convert to JSON
 	json.Unmarshal(jsondata, &MemLinks)
 	if err != nil {
-		fmt.Printf("jsondata error: %+v", err)
+		fmt.Printf("jsondata memlinks error: %+v", err)
 		os.Exit(1)
 	}
 	return MemLinks, nil
