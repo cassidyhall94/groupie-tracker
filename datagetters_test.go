@@ -533,6 +533,6 @@ func TestGetData(t *testing.T) {
 		t.Fatalf("GetData function: MemberWikiLinks failed due to length < 1")
 	}
 	if len(TourData) < 1 {
-		t.Fatalf("GetData function: MemberWikiLinks failed due to length < 1")
+		t.Fatalf("GetData function: TourData failed due to length < 1")
 	}
 }

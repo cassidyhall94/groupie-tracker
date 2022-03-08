@@ -11,7 +11,7 @@
 2,noumea-new_caledonia,Noumea,New Caledonia,
 3,london-uk,London,UK,
 3,lausanne-switzerland,Lausanne,Switzerland,
-3,lyon-france,Lyon,rance,
+3,lyon-france,Lyon,France,
 4,victoria-australia,Victoria,Australia,
 4,new_south_wales-australia,New South Wales,Australia,
 4,queensland-australia,Queensland,Australia,
