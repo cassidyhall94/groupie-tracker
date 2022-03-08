@@ -100,8 +100,8 @@ func tourPage(w http.ResponseWriter, r *http.Request) {
 		handle500(w)
 	}
 
-	ArtistsFull, _, _, _, _, _, MyTour, err := GetData()
-	if err != nil || len(ArtistsFull) == 0 || len(MyTour) == 0 {
+	ArtistsFull, _, _, _, _, _, _, err := GetData()
+	if err != nil || len(ArtistsFull) == 0 {
 		if err == nil {
 			err = errors.New("empty ArtistsFull from GetData")
 		}

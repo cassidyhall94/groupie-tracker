@@ -65,8 +65,8 @@ type MyDate struct {
 }
 
 type TourData struct {
-	ArtistID   int    // artist ID
-	RelationID string // key for relations
+	ArtistID   int    //artist ID
+	RelationID string //key for relations
 	City       string
 	Country    string
 	TourDates  []string

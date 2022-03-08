@@ -44,7 +44,43 @@
     <div class="media">
       <img class="mr-3" src={{.Image}} width="450" alt={{.Name}}>
       <div class="media-body artist">
-        {{range .TourCountry}} {{.}} {{end}}
+        <h1>{{.Name}}</h1>
+        <p><b>Creation Date:</b> {{.CreationDate}} <b>First Album Released:</b> {{.FirstAlbum}}</p>
+        <p><b>Members:</b> {{range .Members}} {{.}}, {{end}}
+        <div class="conteiner">
+          <table>
+            <tr>
+              <th><b>Country</b></th>
+              <th><b>City</b></th>
+              <th><b>Dates</b></th>
+            </tr>
+            <tr>
+              <td>
+                <ul>
+                  {{ range .TourCountry }}
+                  <li>{{ . }}</li>
+                  {{ end }}
+                </ul>
+              </td>
+
+              <td>
+                <ul>
+                  {{ range .TourCity }}
+                  <li>{{ . }}</li>
+                  {{ end }}
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  {{ range .TourDateString }}
+                  <li>{{ . }}</li>
+                  {{ end }}
+                </ul>
+              </td>
+          </table>
+
+        </div>
+        </p>
 
         <table>
           <tr>
