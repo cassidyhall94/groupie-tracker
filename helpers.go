@@ -12,7 +12,7 @@ import (
 
 func ConverterStructToString() ([]string, []MyArtistFull, error) {
 	var data []string
-	ArtistsFull, Artists, Locations, Dates, _, _, err := GetData()
+	ArtistsFull, Artists, Locations, Dates, _, _, _, err := GetData()
 	if err != nil || len(ArtistsFull) == 0 {
 		if err == nil {
 			err = errors.New("empty ArtistsFull from GetData")

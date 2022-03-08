@@ -19,16 +19,21 @@ import (
 const baseURL = "https://groupietrackers.herokuapp.com/api"
 
 type MyArtistFull struct {
-	ID             int                 `json:"id"`
-	Image          string              `json:"image"`
-	Name           string              `json:"name"`
-	Members        []string            `json:"members"`
-	CreationDate   int                 `json:"creationDate"`
-	FirstAlbum     string              `json:"firstAlbum"`
-	Locations      []string            `json:"locations"`
-	ConcertDates   []string            `json:"concertDates"`
-	DatesLocations map[string][]string `json:"datesLocations"`
-	WikiLink       []string
+	ID              int                 `json:"id"`
+	Image           string              `json:"image"`
+	Name            string              `json:"name"`
+	Members         []string            `json:"members"`
+	CreationDate    int                 `json:"creationDate"`
+	FirstAlbum      string              `json:"firstAlbum"`
+	Locations       []string            `json:"locations"`
+	ConcertDates    []string            `json:"concertDates"`
+	DatesLocations  map[string][]string `json:"datesLocations"`
+	WikiLink        []string
+	TourCity        []string
+	TourCountry     []string
+	TourDates       [][]string
+	TourDateString  []string
+	TourDatesString string
 }
 
 type MyArtist struct {
@@ -57,6 +62,18 @@ type MyRelation struct {
 type MyDate struct {
 	ID    int      `json:"id"`
 	Dates []string `json:"dates"`
+}
+
+type TourData struct {
+	ArtistID   int    //artist ID
+	RelationID string //key for relations
+	City       string
+	Country    string
+	TourDates  []string
+}
+
+type MyTour struct {
+	Index []TourData
 }
 
 type MyDates struct {

@@ -23,7 +23,6 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("Data(Search(search)) from Main Page: %v/n", data)
 	} else {
 		data = Search("a")
-		// fmt.Printf("Data(Search(a)) from Main Page: %v/n", data)
 	}
 
 	if filterByCreationFrom != "" || filterByCreationTill != "" {
@@ -68,7 +67,7 @@ func concertPage(w http.ResponseWriter, r *http.Request) {
 		handle400(w)
 	}
 
-	ArtistsFull, _, _, _, _, _, err := GetData()
+	ArtistsFull, _, _, _, _, _, _, err := GetData()
 	if err != nil || len(ArtistsFull) == 0 {
 		if err == nil {
 			err = errors.New("empty ArtistsFull from GetData")
@@ -101,7 +100,7 @@ func tourPage(w http.ResponseWriter, r *http.Request) {
 		handle500(w)
 	}
 
-	ArtistsFull, _, _, _, _, _, err := GetData()
+	ArtistsFull, _, _, _, _, _, _, err := GetData()
 	if err != nil || len(ArtistsFull) == 0 {
 		if err == nil {
 			err = errors.New("empty ArtistsFull from GetData")
@@ -121,10 +120,7 @@ func tourPage(w http.ResponseWriter, r *http.Request) {
 		handle500(w)
 	}
 
-	if err := tmpl.Execute(w, artist); err != nil {
-		fmt.Printf("Tour Page Execute(w, artist) (%v) error: %+v/n", artist, err)
-		handle500(w)
-	}
+	tmpl.Execute(w, artist)
 }
 
 func locationsPage(w http.ResponseWriter, r *http.Request) {

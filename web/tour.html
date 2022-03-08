@@ -1,94 +1,106 @@
 <!doctype html>
 <html lang="en">
 
-  <head>
-  
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Pacifico|Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="static/style.css">
+<head>
 
-    <title>Tour Page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Pacifico|Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/style.css">
+
+  <title>Tour Page</title>
 
 </head>
 
 <body>
-  <nav
-  class="navbar navbar-expand-lg navbar navbar-dark fixed-top"
-  style="background: linear-gradient(#121418, #021011)"
->
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/" title="Homepage">Groupie Tracker</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            href="/locations"
-            title="locations"
-            >Locations</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            href="/about"
-            title="About the project"
-            >About</a
-          >
-        </li>
-      </ul>
+  <nav class="navbar navbar-expand-lg navbar navbar-dark fixed-top"
+    style="background: linear-gradient(#121418, #021011)">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/" title="Homepage">Groupie Tracker</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/locations" title="locations">Locations</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about" title="About the project">About</a>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
-</nav>
-    <section>
-       <br><br>
-              <a href="/" target="_self" class="main-page-btn d-flex justify-content-center">Main Page</a>
-          </div>
+  </nav>
+  <section>
+    <br><br>
+    <a href="/" target="_self" class="main-page-btn d-flex justify-content-center">Main Page</a>
+    </div>
+    </div>
+    <br><br><br>
+    <div class="media">
+      <img class="mr-3" src={{.Image}} width="450" alt={{.Name}}>
+      <div class="media-body artist">
+        <h1>{{.Name}}</h1>
+        <div class="conteiner">
+          <p></p>
+
+          <table>
+            <tr>
+              <th>
+                <h5>Country</h5>
+              </th>
+              <th>
+                <h5>City</h5>
+              </th>
+              <th>
+                <h5>Dates</h5>
+              </th>
+            </tr>
+            <tr>
+              <td>
+                <ul>
+                  {{ range .TourCountry }}
+                  <li>{{ . }}</li>
+                  {{ end }}
+                </ul>
+              </td>
+
+              <td>
+                <ul>
+                  {{ range .TourCity }}
+                  <li>{{ . }}</li>
+                  {{ end }}
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  {{ range .TourDateString }}
+                  <li>{{ . }}</li>
+                  {{ end }}
+                </ul>
+              </td>
+          </table>
+
         </div>
-<br><br><br>
-        <div class="media">
-            <img class="mr-3" src={{.Image}} width="450" alt={{.Name}}>
-            <div class="media-body artist">
-                <h1>{{.Name}}</h1>
-                <p><b>Creation Date:</b> {{.CreationDate}} <b>First Album Released:</b> {{.FirstAlbum}}</p>
-                <p><b>Members:</b> {{range .Members}} {{.}}, {{end}}
-                    <div class="conteiner">
-                        <div>
-                            {{range $key, $value := .DatesLocations}}
-                            <div class="artist-data">
-                                <b>{{$key}}</b>
-                            </div>
-                            {{range $value}}
-                            <div class="data">{{.}}</div>
-                            <br> {{end}} {{end}}
-                        </div>
-                    </div>
-                </p>
+        </p>
 
+      </div>
+    </div>
 
-            </div>
-        </div>
+    <<<<<<< HEAD=======</div>
+      </div>
 
 
 
 
 
 
-    </section>
+      >>>>>>> 86e3c03 (updates to tour)
+  </section>
 
 </body>
 

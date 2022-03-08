@@ -8,7 +8,52 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strconv"
+	"strings"
 )
+
+func GetTourData() ([]TourData, error) {
+	TourThings := []TourData{}
+	Relations, err1 := GetRelationsData()
+	if err1 != nil {
+		fmt.Printf("Relations tour_data error: %+v", err1)
+	}
+
+	f, err := os.Open("web/tour_data.txt")
+	if err != nil {
+		fmt.Printf("tour_data file error: %+v", err)
+	}
+
+	defer f.Close()
+
+	csvReader := csv.NewReader(f)
+	csvData, err := csvReader.ReadAll()
+	if err != nil {
+		fmt.Printf("cvsreader tour error: %+v", err)
+	}
+
+	var oneRecord TourData
+	var allRecords []TourData
+
+	for _, each := range csvData {
+		oneRecord.ArtistID, _ = strconv.Atoi(each[0])
+		oneRecord.RelationID = each[1]
+		oneRecord.City = each[2]
+		oneRecord.Country = each[3]
+		oneRecord.TourDates = Relations.Index[oneRecord.ArtistID-1].DatesLocations[each[1]]
+		allRecords = append(allRecords, oneRecord)
+	}
+
+	jsondata, err := json.Marshal(allRecords) // convert to JSON
+	json.Unmarshal(jsondata, &TourThings)
+
+	if err != nil {
+		fmt.Printf("jsondata tour error: %+v", err)
+		os.Exit(1)
+	}
+
+	return TourThings, nil
+}
 
 func GetWikiLinks() ([]MemberWikiLinks, error) {
 	MemLinks := []MemberWikiLinks{}
@@ -35,7 +80,7 @@ func GetWikiLinks() ([]MemberWikiLinks, error) {
 	jsondata, err := json.Marshal(allRecords) // convert to JSON
 	json.Unmarshal(jsondata, &MemLinks)
 	if err != nil {
-		fmt.Printf("jsondata error: %+v", err)
+		fmt.Printf("jsondata memlinks error: %+v", err)
 		os.Exit(1)
 	}
 	return MemLinks, nil
@@ -99,14 +144,15 @@ func GetRelationsData() (MyRelations, error) {
 	return Relations, nil
 }
 
-func GetData() ([]MyArtistFull, []MyArtist, MyLocations, MyDates, MyRelations, []MemberWikiLinks, error) {
+func GetData() ([]MyArtistFull, []MyArtist, MyLocations, MyDates, MyRelations, []MemberWikiLinks, []TourData, error) {
 	Artists, err1 := GetArtistsData()
 	Locations, err2 := GetLocationsData()
 	Dates, err3 := GetDatesData()
 	Relations, err4 := GetRelationsData()
 	MemLinks, err5 := GetWikiLinks()
-	if err1 != nil || err2 != nil || err3 != nil || err4 != nil || err5 != nil {
-		return []MyArtistFull{}, []MyArtist{}, MyLocations{}, MyDates{}, MyRelations{}, []MemberWikiLinks{}, fmt.Errorf("error from get data artists: %v, locations: %v, dates: %v, relations: %v, or memlinks: %v", err1, err2, err3, err4, err5)
+	TourThings, err6 := GetTourData()
+	if err1 != nil || err2 != nil || err3 != nil || err4 != nil || err5 != nil || err6 != nil {
+		return []MyArtistFull{}, []MyArtist{}, MyLocations{}, MyDates{}, MyRelations{}, []MemberWikiLinks{}, []TourData{}, fmt.Errorf("error from get data artists: %v, locations: %v, dates: %v, relations: %v, memlinks: %v, or TourThings: %v", err1, err2, err3, err4, err5, err6)
 	}
 	ret := []MyArtistFull{}
 	for i := range Artists {
@@ -119,6 +165,34 @@ func GetData() ([]MyArtistFull, []MyArtist, MyLocations, MyDates, MyRelations, [
 				}
 			}
 		}
+
+		var addCity []string
+		for m := 0; m < len(TourThings); m++ {
+			if TourThings[m].ArtistID == Artists[i].ID {
+				addCity = append(addCity, TourThings[m].City)
+			}
+		}
+
+		var addCountry []string
+		for m := 0; m < len(TourThings); m++ {
+			if TourThings[m].ArtistID == Artists[i].ID {
+				addCountry = append(addCountry, TourThings[m].Country)
+			}
+		}
+
+		var addDates [][]string
+		for m := 0; m < len(TourThings); m++ {
+			if TourThings[m].ArtistID == Artists[i].ID {
+				addDates = append(addDates, TourThings[m].TourDates)
+			}
+		}
+
+		var addDatesString []string
+		for _, date := range addDates {
+			s := strings.Join(date, " | ")
+			addDatesString = append(addDatesString, s)
+		}
+
 		tmpl.ID = i + 1
 		tmpl.Image = Artists[i].Image
 		tmpl.Name = Artists[i].Name
@@ -129,9 +203,13 @@ func GetData() ([]MyArtistFull, []MyArtist, MyLocations, MyDates, MyRelations, [
 		tmpl.ConcertDates = Dates.Index[i].Dates
 		tmpl.DatesLocations = Relations.Index[i].DatesLocations
 		tmpl.WikiLink = addMemLinks
+		tmpl.TourCity = addCity
+		tmpl.TourCountry = addCountry
+		tmpl.TourDates = addDates
+		tmpl.TourDateString = addDatesString
 		ret = append(ret, tmpl)
 	}
-	return ret, Artists, Locations, Dates, Relations, MemLinks, nil
+	return ret, Artists, Locations, Dates, Relations, MemLinks, TourThings, nil
 }
 
 func GetArtistByID(id int, Artists []MyArtist) (MyArtist, error) {
